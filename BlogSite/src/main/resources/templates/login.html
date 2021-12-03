@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:include="~{fragment/_staticLink :: link}">
+	<div th:replace="~{fragment/_header :: header}"></div>
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.984.0" data-gr-ext-installed="">
+<div class="body">
+	<div class="wrap col-12">
+		<div class="container blog-content-container col-12">
+			<form  class="form-signin col-12" th:action="@{/login}" method="post">
+				<div class="left col-md-6"><video src="./video/globe-500.h264.mp4" muted autoplay loop></video></div>
+				<div class="right inputbox col-md-6">
+					<div class="right-col col-md-8">
+						<h2 >登录系统</h2>
+
+						<div class="form-group col-md-12">
+							<label for="username" class="col-form-label" style="font: 20px bold">学号：</label>
+							<input type="text" class="form-control" id="username" name="username" maxlength="50" placeholder="请输入账号">
+						</div>
+						<div class="form-group col-md-12">
+							<label for="password" class="col-form-label" style="font: 20px bold">密码：</label>
+							<input type="password" class="form-control" id="password" name="password" maxlength="30" placeholder="请输入密码" >
+						</div>
+						<div class="form-group col-md-12">
+							<input type="checkbox" name="remember-me" style="font: 20px bold"> 记住我
+						</div>
+						<div class="buttons">
+							<div class="form-group col-md-6">
+								<button type="submit" class="btn btn-lg btn-primary btn-block" style="position: center; font: 20px bold">登录</button>
+							</div>
+							<div class="form-group col-md-6">
+								<a href="/register" th:href="@{~/register}"><button type="button" class="btn btn-lg btn-primary btn-block" style="text-align: center; font: 20px bold">注册</button></a> </div>
+						</div>
+
+						<div class=" col-md-5" th:if="${loginError}">
+							<p class="blog-label-error" th:text="${errorMsg}"></p>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div> <!-- /container -->
+
+
+
+	</div>
+	<div th:replace="~{fragment/_footer :: footer}">...</div>
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <title>Ruicheng's Blog</title>
+</head>
+<body>
+<!--头部信息-->
+<div th:replace="~{fragment/_header :: header}"></div>
+
+<h3 th:text="${userModel.title}"></h3>
+<div>
+  <p><strong>ID: </strong><span th:text="${userModel.user.id}"></span></p>
+  <p><strong>姓名: </strong><span th:text="${userModel.user.name}"></span></p>
+  <p><strong>邮箱: </strong><span th:text="${userModel.user.email}"></span></p>
+</div>
+
+
+
+<!--尾部信息-->
+<div th:replace="~{fragment/_footer :: footer}"></div>
+
+</body>
+</html>

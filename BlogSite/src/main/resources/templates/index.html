@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="~{fragment/_staticLink :: link}">
+    <div th:replace="~{fragment/_header :: header}"></div>
+</head>
+<body>
+
+<aside th:replace="~{fragment/_sidebar :: sidebar}"></aside>
+
+
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <!-- Carousel -->
+
+        <div class="no-gutter col-12">
+            <div class="col-md-6">
+                <article class="box-shadow" style="height:500px">
+                    <div class="no-gutter">
+                        <div class="col-sm-6">
+                            <div class="art-content text-center">
+                                <div class="heading">
+                                    <br>
+                                    <br>
+                                    <h2>修改用户权限</h2>
+                                    <hr class="line">
+                                </div>
+                                <a href="/update_permission/">---> 进入</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article  class="box-shadow" style="height:450px">
+                    <div class="no-gutter">
+                        <div class="col-sm-6">
+                            <div class="art-content text-center">
+                                <div class="heading">
+                                    <h2>增加/删除用户</h2>
+                                    <hr class="line">
+                                </div>
+                                <a href="/add_remove_user/">---> 进入</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6">
+                <article  class="box-shadow" style="height:500px">
+                    <div class="no-gutter">
+                        <div class="col-sm-6">
+                            <div class="art-content text-center">
+                                <div class="heading">
+                                    <br>
+                                    <br>
+                                    <h2>版本控制</h2>
+                                    <hr class="line">
+                                </div>
+                                <a href="/update_system/">---> 进入</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article  class="box-shadow" style="height:450px">
+                    <div class="no-gutter">
+                        <div class="col-sm-12">
+                            <div class="art-content text-center">
+                                <div class="heading">
+                                    <h2>修改学生信息</h2>
+                                    <hr class="line">
+                                </div>
+                                <a href="/update_detail/">---> 进入</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section><!-- /wrapper -->
+</section><!-- /MAIN CONTENT -->
+<!--main content end-->
+
+
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="static/js/jquery.nicescroll.js"></script>
+<!--common script for all pages-->
+<script src="static/js/common-scripts.js"></script>
+
+
+<div th:replace="~{fragment/_footer :: footer}">...</div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--sidebar start-->
+<aside th:fragment="sidebar">
+    <div class="sideNav" role="navigation" style="position:absolute; background-color:rgba(0,0,0,0); border-right:0px">
+        <div id="sidebar"  class="nav-collapse ">
+            <!-- sidebar menu start-->
+            <ul class="sidebar-menu" id="side-menu">
+                <li>
+                    <a href="#"><i class="fa fa-tags"></i>首页</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-tags"></i>学生信息<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/view_detail/">平时成绩</a>
+                        </li>
+                        <li>
+                            <a href="/view_score/">期末考试预测</a>
+                        </li>
+                        <li>
+                            <a href="/view_evaluation/">个性化评价</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-tags"></i>更新信息<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/update_detail/">修改学生信息</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-tags"></i>管理员权限<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/update_permission/">修改用户权限</a>
+                        </li>
+                        <li>
+                            <a href="/add_remove_user/">增加/删除用户</a>
+                        </li>
+                        <li>
+                            <a href="/update_system/">版本控制</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-tags"></i>我的信息<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/update_password/">修改密码</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- sidebar menu end-->
+        </div>
+    </div>
+</aside>
+<!--sidebar end-->
+
+
+
+</body>
+</html>
