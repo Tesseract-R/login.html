@@ -31,7 +31,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/users")
-@PreAuthorize("hasAuthority('ROLE_ADMIN')")  // 指定角色权限才能操作方法
+//@PreAuthorize("hasAuthority('ROLE_ADMIN')")  // 指定角色权限才能操作方法
 public class UserController {
     @Autowired
     private UserService userService;
@@ -55,13 +55,15 @@ public class UserController {
                              @RequestParam(value="name",required=false,defaultValue="") String name,
                              Model model) {
 
-        Pageable pageable = PageRequest.of(pageIndex, pageSize);
-        Page<User> page = userService.listUsersByNameLike(name, pageable);
-        List<User> list = page.getContent();	// 当前所在页面数据列表
+//        Pageable pageable = PageRequest.of(pageIndex, pageSize);
+//        Page<User> page = userService.listUsersByNameLike(name, pageable);
+//        List<User> list = page.getContent();	// 当前所在页面数据列表
+        List<User> list = userService.listUsers();
 
-        model.addAttribute("page", page);
+//        model.addAttribute("page", page);
+        model.addAttribute("title", "用户列表");
         model.addAttribute("userList", list);
-        return new ModelAndView(async==true?"users/list :: #mainContainerRepleace":"users/list", "userModel", model);
+        return new ModelAndView(async ?"users/list :: #mainContainerRepleace":"users/list", "userModel", model);
     }
 
 
@@ -100,36 +102,36 @@ public class UserController {
      * @param authorityId
      * @return
      */
-    @PostMapping
-    public ResponseEntity<Response> create(User user, Long authorityId) {
-        List<Authority> authorities = new ArrayList<>();
-        authorities.add(authorityService.getAuthorityById(authorityId));
-        user.setAuthorities(authorities);
-
-        if(user.getId() == null) {
-            user.setEncodePassword(user.getPassword()); // 加密密码
-        }else {
-            // 判断密码是否做了变更
-            User originalUser = userService.getUserById(user.getId());
-            String rawPassword = originalUser.getPassword();
-            PasswordEncoder encoder = new BCryptPasswordEncoder();
-            String encodePasswd = encoder.encode(user.getPassword());
-            boolean isMatch = encoder.matches(rawPassword, encodePasswd);
-            if (!isMatch) {
-                user.setEncodePassword(user.getPassword());
-            }else {
-                user.setPassword(user.getPassword());
-            }
-        }
-
-        try {
-            userService.saveUser(user);
-        }  catch (ConstraintViolationException e)  {
-            return ResponseEntity.ok().body(new Response(false, ConstraintViolationExceptionHandler.getMessage(e)));
-        }
-
-        return ResponseEntity.ok().body(new Response(true, "处理成功", user));
-    }
+//    @PostMapping
+//    public ResponseEntity<Response> create(User user, Long authorityId) {
+//        List<Authority> authorities = new ArrayList<>();
+//        authorities.add(authorityService.getAuthorityById(authorityId));
+//        user.setAuthorities(authorities);
+//
+//        if(user.getId() == null) {
+//            user.setEncodePassword(user.getPassword()); // 加密密码
+//        }else {
+//            // 判断密码是否做了变更
+//            User originalUser = userService.getUserById(user.getId());
+//            String rawPassword = originalUser.getPassword();
+//            PasswordEncoder encoder = new BCryptPasswordEncoder();
+//            String encodePasswd = encoder.encode(user.getPassword());
+//            boolean isMatch = encoder.matches(rawPassword, encodePasswd);
+//            if (!isMatch) {
+//                user.setEncodePassword(user.getPassword());
+//            }else {
+//                user.setPassword(user.getPassword());
+//            }
+//        }
+//
+//        try {
+//            userService.saveUser(user);
+//        }  catch (ConstraintViolationException e)  {
+//            return ResponseEntity.ok().body(new Response(false, ConstraintViolationExceptionHandler.getMessage(e)));
+//        }
+//
+//        return ResponseEntity.ok().body(new Response(true, "处理成功", user));
+//    }
 
     /**
      * 删除用户
@@ -153,11 +155,11 @@ public class UserController {
      * @param user
      * @return
      */
-//    @PostMapping
-//    public ModelAndView saveOrUpdateUser(User user) {
-//        user = userRepository.saveOrUpdateUser(user);
-//        return new ModelAndView("redirect:/users");
-//    }
+    @PostMapping
+    public ModelAndView saveOrUpdateUser(User user) {
+        user = userRepository.saveOrUpdateUser(user);
+        return new ModelAndView("redirect:/users");
+    }
 
     /**
      * 修改用户信息
@@ -165,22 +167,22 @@ public class UserController {
      * @param model
      * @return
      */
-//    @GetMapping("/modify/{id}")
-//    public ModelAndView modify(@PathVariable("id") Long id, Model model) {
-//        User user = userRepository.getUserbyId(id);
-//        model.addAttribute("user", user);
-//        model.addAttribute("title", "修改用户");
-//        return new ModelAndView("users/form", "userModel", model);
-//    }
+    @GetMapping("/modify/{id}")
+    public ModelAndView modify(@PathVariable("id") Long id, Model model) {
+        User user = userRepository.getUserbyId(id);
+        model.addAttribute("user", user);
+        model.addAttribute("title", "修改用户");
+        return new ModelAndView("users/form", "userModel", model);
+    }
 
     /**
      * 删除用户
      */
-//    @GetMapping("/delete/{id}")
-//    public ModelAndView view(@PathVariable("id") Long id) {
-//        userRepository.deleteUser(id);
-//        return new ModelAndView("redirect:/users");
-//    }
+    @GetMapping("/delete/{id}")
+    public ModelAndView view(@PathVariable("id") Long id) {
+        userRepository.deleteUser(id);
+        return new ModelAndView("redirect:/users");
+    }
 
     /**
      * 获取修改用户的界面，及数据

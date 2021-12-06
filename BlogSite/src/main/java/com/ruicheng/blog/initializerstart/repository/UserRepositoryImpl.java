@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Repository
 public class UserRepositoryImpl implements UserRepository{
-    private static AtomicLong counter =new AtomicLong(); // 用来计数，保证用户唯一ID
+    private static final AtomicLong counter = new AtomicLong(); // 用来计数，保证用户唯一ID
     private final ConcurrentMap<Long, User> userMap = new ConcurrentHashMap<>();
 
     @Override
@@ -45,11 +45,16 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public List<User> listUsers() {
-        return new ArrayList<User>(this.userMap.values());
+        return new ArrayList<>(this.userMap.values());
     }
 
     @Override
     public UserDetails findByUsername(String username) {
+        List<User> userList  = listUsers();
+        for (User user: userList){
+            if (user.getUsername().equals(username))
+                return user;
+        }
         return null;
     }
 
@@ -60,7 +65,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public List<User> findAll() {
-        return null;
+        return listUsers();
     }
 
     @Override

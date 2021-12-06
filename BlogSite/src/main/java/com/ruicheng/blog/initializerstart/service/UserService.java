@@ -59,4 +59,7 @@ public interface UserService {
 	 * @return
 	 */
 	Page<User> listUsersByNameLike(String name, Pageable pageable);
+
+
+	boolean verifyUser(User user);
 }

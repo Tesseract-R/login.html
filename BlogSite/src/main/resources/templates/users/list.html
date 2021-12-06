@@ -1,52 +1,84 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
-<link rel="stylesheet" href="../../static/css/bootstrap.min.css" />
-
-<head>
-  <meta charset="UTF-8">
-  <title>Ruicheng's Blog</title>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="~{fragment/_staticLink :: link}">
+    <div th:replace="~{fragment/_header :: header}"></div>
 </head>
-<body>
-<!--头部信息-->
-  <div th:replace="~{fragment/_header :: header}"></div>
+<body style="background-color:#F4F4F4">
 
-<div class="text-center tm-hero-text-container">
-  <h3 th:text="${userModel.title}"></h3>
-  <div>
-    <a href="/users/form.html" th:href="@{/users/form}">添加用户</a>
-  </div>
-  <table border="1">
-    <thead>
-    <tr>
-      <td> ID </td>
-      <td> 邮箱 </td>
-      <td> 姓名 </td>
-      <td> 操作 </td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:if="${userModel.userList.size()} eq 0">
-      <td colspan="4">没有用户信息！</td>
-    </tr>
-    <tr th:each="user : ${userModel.userList}">
-      <td th:text="${user.id}"></td>
-      <td th:text="${user.email}"></td>
-      <td th:text="${user.name}"></td>
-      <td>
-        <a th:href="@{'/users/'+${user.id}}">详细信息</a>
-        <a th:href="@{'/users/modify/'+${user.id}}">修改</a>
-        <a th:href="@{'/users/delete/'+${user.id}}">删除</a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+<aside th:replace="~{fragment/_sidebar :: sidebar}"></aside>
 
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper col-12" style="height: 800px">
+      <div id="mainContainer" class="container">
+          <div id="mainContainerRepleace" class="row">
+              <!-- Carousel -->
+              <div style="position: center" class="col-md-12">
+                  <div class="text-center tm-hero-text-container">
+                      <h3 th:text="${userModel.title}" style="color: black"></h3>
 
+                      <div class="card-header bg-light">
+                          <div class="input-group col-md-7 col-xl-6" style="padding: 0 0 0 0">
+                              <input type="text" class="form-control" id="searchName" placeholder="输入用户名称进行搜索" style="margin-top: 0">
+                              <span class="input-group-btn" style="height: 40px; display: flex; vertical-align: middle">
+                                  <button class="btn btn-secondary" type="button" id="searchNameBtn" style="height: 40px">
+                                      <div><i class="fa fa-search" aria-hidden="true" style="position: center"></i></div>
+                                  </button>
+                              </span>
+                              <a class="btn btn-primary" data-toggle="modal" data-target="#flipFlop" role="button" id="addUser" style="height: 40px; vertical-align: middle">
+                                  <div><i class="fa fa-plus" aria-hidden="true" style="position: center"></i></div>
+                              </a>
+                          </div>
+                      </div>
+
+                      <table class="table table-striped" border="1">
+                          <thead>
+                          <tr>
+                              <td> ID </td>
+                              <td> 学号 </td>
+                              <td> 邮箱 </td>
+                              <td> 姓名 </td>
+                              <td> 密码 </td>
+                              <td> 操作 </td>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr th:if="${userModel.userList.size()} eq 0">
+                              <td colspan="6">没有用户信息！</td>
+                          </tr>
+                          <tr th:each="user : ${userModel.userList}">
+                              <td th:text="${user.id}"></td>
+                              <td th:text="${user.pId}"></td>
+                              <td th:text="${user.email}"></td>
+                              <td th:text="${user.name}"></td>
+                              <td th:text="${user.password}"></td>
+                              <td>
+                                  <!--              <a th:href="@{'/users/'+${user.id}}">详细信息</a>-->
+                                  <!--              <a th:href="@{'/users/modify/'+${user.id}}">修改</a>-->
+                                  <!--              <a th:href="@{'/users/delete/'+${user.id}}">删除</a>-->
+                                  <div>
+                                      <a class="blog-edit-user" data-toggle="modal" data-target="#flipFlop" role="button" data-th-attr="userId=${user.id}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                      <a class="blog-delete-user" role="button" data-th-attr="userId=${user.id}"> <i class="fa fa-times" aria-hidden="true"></i></a>
+                                  </div>
+                              </td>
+                          </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </section>
+</section>
 <!--尾部信息-->
-  <div th:replace="~{fragment/_footer :: footer}"></div>
+<div th:replace="~{fragment/_footer :: footer}"></div>
+
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="static/js/jquery.nicescroll.js"></script>
+<!--common script for all pages-->
+<script src="static/js/common-scripts.js"></script>
 
 </body>
 </html>

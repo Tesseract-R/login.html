@@ -70,6 +70,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
+	public boolean verifyUser(User user) {
+		User userFound = (User) userRepository.findByUsername(user.getUsername());
+		if ( userFound != null && userFound.getPassword().equals(user.getPassword()) ){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return userRepository.findByUsername(username);
 	}

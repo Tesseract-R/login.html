@@ -27,7 +27,7 @@ public class MainController {
 	private UserService userService;
 	
 	@Autowired
-	private AuthorityService  authorityService;
+	private AuthorityService authorityService;
 	
 	@GetMapping("/")
 	public String root() {
@@ -54,6 +54,13 @@ public class MainController {
 		model.addAttribute("errorMsg", "登陆失败，账号或者密码错误！");
 		return "login";
 	}
+
+	@GetMapping("/register-error")
+	public String registerError(Model model) {
+		model.addAttribute("registerError", true);
+		model.addAttribute("errorMsg", "信息输入错误！");
+		return "register";
+	}
 	
 	@GetMapping("/register")
 	public String register() {
@@ -73,9 +80,18 @@ public class MainController {
 		userService.saveUser(user);
 		return "redirect:/login";
 	}
+
+	@PostMapping({"/login", "/login-error"})
+	public String verifyUser(User user) {
+		if (!userService.verifyUser(user)){
+			return "redirect:/login-error";
+		};
+		return "redirect:/index";
+	}
 	
 	@GetMapping("/search")
 	public String search() {
 		return "search";
 	}
+
 }

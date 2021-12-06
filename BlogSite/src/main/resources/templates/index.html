@@ -5,25 +5,21 @@
 <head th:include="~{fragment/_staticLink :: link}">
     <div th:replace="~{fragment/_header :: header}"></div>
 </head>
-<body>
+<body style="background-color:#F4F4F4">
 
 <aside th:replace="~{fragment/_sidebar :: sidebar}"></aside>
-
 
 <!--main content start-->
 <section id="main-content">
     <section class="wrapper">
         <!-- Carousel -->
-
-        <div class="no-gutter col-12">
-            <div class="col-md-6">
-                <article class="box-shadow" style="height:500px">
-                    <div class="no-gutter">
-                        <div class="col-sm-6">
+        <div style="display: flex" class="col-md-12">
+            <div class="no-gutter col-md-6 col-sm-12" style="padding: 0 0 0 0">
+                <article class="box-shadow" style="height:450px">
+                    <div class="no-gutter" style="align-content: center">
+                        <div class="col-sm-12">
                             <div class="art-content text-center">
                                 <div class="heading">
-                                    <br>
-                                    <br>
                                     <h2>修改用户权限</h2>
                                     <hr class="line">
                                 </div>
@@ -32,28 +28,26 @@
                         </div>
                     </div>
                 </article>
-                <article  class="box-shadow" style="height:450px">
+                <article class="box-shadow" style="height:450px">
                     <div class="no-gutter">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <div class="art-content text-center">
                                 <div class="heading">
                                     <h2>增加/删除用户</h2>
                                     <hr class="line">
                                 </div>
-                                <a href="/add_remove_user/">---> 进入</a>
+                                <a href="/users">---> 进入</a>
                             </div>
                         </div>
                     </div>
                 </article>
             </div>
-            <div class="col-md-6">
-                <article  class="box-shadow" style="height:500px">
+            <div class="no-gutter col-md-6 col-sm-12" style="padding: 0 0 0 0">
+                <article  class="box-shadow" style="height:450px">
                     <div class="no-gutter">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <div class="art-content text-center">
                                 <div class="heading">
-                                    <br>
-                                    <br>
                                     <h2>版本控制</h2>
                                     <hr class="line">
                                 </div>
@@ -77,6 +71,7 @@
                 </article>
             </div>
         </div>
+
     </section><!-- /wrapper -->
 </section><!-- /MAIN CONTENT -->
 <!--main content end-->
@@ -86,7 +81,6 @@
 <script src="static/js/jquery.nicescroll.js"></script>
 <!--common script for all pages-->
 <script src="static/js/common-scripts.js"></script>
-
 
 <div th:replace="~{fragment/_footer :: footer}">...</div>
 </body>
