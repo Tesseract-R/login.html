@@ -87,11 +87,22 @@ public class UserController {
      * @param model
      * @return
      */
-    @GetMapping("/add")
+    @GetMapping("/addUser")
     public ModelAndView createForm(Model model) {
         model.addAttribute("user", new User(null, null, null, null));
         model.addAttribute("title", "创建用户");
         return new ModelAndView("users/form", "userModel", model);
+    }
+
+    /**
+     * 提交表单
+     * @param user
+     * @return
+     */
+    @PostMapping("/addUser")
+    public ModelAndView saveOrUpdateUser(User user) {
+        userRepository.saveOrUpdateUser(user);
+        return new ModelAndView("redirect:/users");
     }
 
 
@@ -148,19 +159,6 @@ public class UserController {
         return  ResponseEntity.ok().body( new Response(true, "处理成功"));
     }
 
-
-    /**
-     * 提交表单
-     *
-     * @param user
-     * @return
-     */
-    @PostMapping
-    public ModelAndView saveOrUpdateUser(User user) {
-        user = userRepository.saveOrUpdateUser(user);
-        return new ModelAndView("redirect:/users");
-    }
-
     /**
      * 修改用户信息
      * @param id
@@ -189,7 +187,7 @@ public class UserController {
      * @param id, model
      * @return
      */
-    @GetMapping(value = "edit/{id}")
+    @GetMapping(value = "/edit/{id}")
     public ModelAndView modifyForm(@PathVariable("id") Long id, Model model) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);

@@ -1,27 +1,52 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-    <meta charset="UTF-8">
-    <title>Ruicheng's Blog</title>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="~{fragment/_staticLink :: link}">
+    <div th:replace="~{fragment/_header :: header}"></div>
 </head>
-<body>
-<!--头部信息-->
-<div th:replace="~{fragment/_header :: header}"></div>
+<body style="background-color:#F4F4F4">
 
-<h3 th:text="${userModel.title}"></h3>
-<form action="/users" th:action="@{/users}" method="post" th:object="${userModel.user}">
-    <input type="hidden" name="id" th:value="*{id}">
-    账号昵称：<br>
-    <input type="text" name="name" th:value="*{name}">
-    <br>
-    邮箱：<br>
-    <input type="text" name="email" th:value="*{email}">
-    <br>
-    <input type="submit" name="提交">
-</form>
+<aside th:replace="~{fragment/_sidebar :: sidebar}"></aside>
 
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper col-12" style="height: 800px">
+        <div id="mainContainer" class="container">
+            <div id="mainContainerRepleace" class="row">
+                <!-- Carousel -->
+                <div style="position: center" class="col-md-12">
+                    <div class="text-center tm-hero-text-container">
+                        <h3 th:text="${userModel.title}"></h3>
+                        <form action="/users" th:action="@{/users}" method="post" th:object="${userModel.user}">
+                            学号：<br>
+<!--                            <input type="text" name=pId" th:value="*{pid}">-->
+                            <br>
+
+                            姓名：<br>
+                            <input type="text" name="name" th:value="*{name}">
+                            <br>
+
+                            邮箱：<br>
+                            <input type="text" name="email" th:value="*{email}">
+                            <br>
+
+                            <input type="submit" name="提交">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
 <!--尾部信息-->
 <div th:replace="~{fragment/_footer :: footer}"></div>
+
+
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="static/js/jquery.nicescroll.js"></script>
+<!--common script for all pages-->
+<script src="static/js/common-scripts.js"></script>
+
 </body>
 </html>
