@@ -17,6 +17,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -36,9 +37,10 @@ public class User implements UserDetails, Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增长策略
     private Long id;
 
-    @NotEmpty(message = "学号不能为空")
+    @NotEmpty(message = "账号不能为空")
+    @Pattern(regexp = "[0-9]")
     @Size(min=1, max=20)
-    private Long pId; // 用户账号，用户登录时的唯一标识
+    private String pid; // 用户账号，用户登录时的唯一标识
 
     @NotEmpty(message = "姓名不能为空")
     @Size(min=2, max=20)
@@ -71,8 +73,9 @@ public class User implements UserDetails, Serializable{
 
     protected User(){};
 
-    public User(Long pid, String name, String email, String password){
-        this.pId = pid;
+    public User(Long id, String pid, String name, String email, String password){
+        this.id = id;
+        this.pid = pid;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -82,7 +85,7 @@ public class User implements UserDetails, Serializable{
         return this.id;
     }
 
-    public Long getpId() { return this.pId;}
+    public String getPid() { return this.pid;}
 
     public String getName() {
         return this.name;
@@ -96,8 +99,8 @@ public class User implements UserDetails, Serializable{
         this.id = id;
     }
 
-    public void setpId(Long pId) {
-        this.pId = pId;
+    public void setPid(String pid) {
+        this.pid = pid;
     }
 
     public void setName(String name) {
@@ -107,8 +110,6 @@ public class User implements UserDetails, Serializable{
     public void setEmail(String email) {
         this.email = email;
     }
-
-
 
 
     @Override
@@ -132,7 +133,7 @@ public class User implements UserDetails, Serializable{
 
     @Override
     public String getUsername() {
-        return String.valueOf(this.pId);
+        return String.valueOf(this.pid);
     }
 
     public void setPassword(String password) {
@@ -181,7 +182,7 @@ public class User implements UserDetails, Serializable{
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", pId=" + pId +
+                ", pid=" + pid +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

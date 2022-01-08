@@ -1,25 +1,52 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-  <meta charset="UTF-8">
-  <title>Ruicheng's Blog</title>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="~{fragment/_staticLink :: link}">
+  <div th:replace="~{fragment/_header :: header}"></div>
 </head>
-<body>
-<!--头部信息-->
-<div th:replace="~{fragment/_header :: header}"></div>
+<body style="background-color:#F4F4F4">
 
-<h3 th:text="${userModel.title}"></h3>
-<div>
-  <p><strong>ID: </strong><span th:text="${userModel.user.id}"></span></p>
-  <p><strong>姓名: </strong><span th:text="${userModel.user.name}"></span></p>
-  <p><strong>邮箱: </strong><span th:text="${userModel.user.email}"></span></p>
-</div>
+<aside th:replace="~{fragment/_sidebar :: sidebar}"></aside>
 
+
+<!--main content start-->
+<section id="main-content">
+  <section class="wrapper col-12" style="height: 800px">
+    <div id="mainContainer" class="container">
+      <div id="mainContainerRepleace" class="row">
+        <!-- Carousel -->
+        <div style="position: center" class="col-md-12">
+          <div class="text-center tm-hero-text-container">
+            <h3 th:text="${userModel.title}"></h3>
+
+            <!-- 基本信息  -->
+            <div class="card-header bg-light col-12" style="text-align: left">
+              <h4>基本信息：</h4>
+              <br>
+              <p><strong>ID: </strong><span th:text="${userModel.user.id}"></span></p>
+              <p><strong>学号: </strong><span th:text="${userModel.user.pid}"></span></p>
+              <p><strong>姓名: </strong><span th:text="${userModel.user.name}"></span></p>
+              <p><strong>邮箱: </strong><span th:text="${userModel.user.email}"></span></p>
+              <p><strong>密码: </strong><span th:text="${userModel.user.password}"></span></p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
 
 
 <!--尾部信息-->
 <div th:replace="~{fragment/_footer :: footer}"></div>
+
+
+<!-- js placed at the end of the document so the pages load faster -->
+<script th:src="@{../../static/js/jquery.nicescroll.js}"></script>
+<!--common script for all pages-->
+<script th:src="@{../../static/js/common-scripts.js}"></script>
 
 </body>
 </html>

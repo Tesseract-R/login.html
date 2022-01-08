@@ -25,6 +25,7 @@ public class UserRepositoryImpl implements UserRepository{
     @Override
     public User saveOrUpdateUser(User user) {
         Long id = user.getId();
+        System.out.println("saveOrUpdateUser: ID=" + id);
         if (id == null) {
             id = counter.incrementAndGet();
             user.setId(id);
@@ -40,6 +41,9 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public User getUserbyId(Long id) {
+        System.out.println("getUserId: ID=" + id);
+        System.out.println("getUserId: Found user, ID= " + this.userMap.get(id).getId());
+        if (id == null) return null;
         return this.userMap.get(id);
     }
 
@@ -49,10 +53,20 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public UserDetails findByUsername(String username) {
+    public UserDetails findByEmail(String email) {
         List<User> userList  = listUsers();
         for (User user: userList){
-            if (user.getUsername().equals(username))
+            if (user.getEmail().equals(email))
+                return user;
+        }
+        return null;
+    }
+
+    @Override
+    public UserDetails findByPid(String pid) {
+        List<User> userList  = listUsers();
+        for (User user: userList){
+            if (user.getPid().equals(pid))
                 return user;
         }
         return null;
@@ -70,7 +84,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public User getOne(Long id) {
-        return null;
+        return getUserbyId(id);
     }
 
     @Override

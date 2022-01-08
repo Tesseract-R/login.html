@@ -19,17 +19,24 @@
                     <div class="text-center tm-hero-text-container">
                         <h3 th:text="${userModel.title}"></h3>
                         <form action="/users" th:action="@{/users}" method="post" th:object="${userModel.user}">
-                            学号：<br>
-<!--                            <input type="text" name=pId" th:value="*{pid}">-->
-                            <br>
 
-                            姓名：<br>
-                            <input type="text" name="name" th:value="*{name}">
-                            <br>
+                            <p th:if="*{id} neq null" name="id">ID: <span th:text="*{id}"></span><input type="hidden" name="id" th:value="*{id}"></p>
 
-                            邮箱：<br>
-                            <input type="text" name="email" th:value="*{email}">
-                            <br>
+                            <p>学号：<br>
+                                <input type="text" name="pid" required="true" οnkeyup="value=value.replace(/[^\d]/g,'')" placehoder="请输入数字" th:value="*{pid}"/>
+                            <br></p>
+
+                            <p>姓名：<br>
+                                <input type="text" name="name" required="true" th:value="*{name}"/>
+                            <br></p>
+
+                            <p>邮箱：<br>
+                                <input type="text" name="email" required="true" th:value="*{email}"/>
+                            <br></p>
+
+                            <p>密码：<br>
+                                <input type="text" name="password" required="true" th:value="*{password}"/>
+                            <br></p>
 
                             <input type="submit" name="提交">
                         </form>
@@ -44,9 +51,9 @@
 
 
 <!-- js placed at the end of the document so the pages load faster -->
-<script src="static/js/jquery.nicescroll.js"></script>
+<script th:src="@{../../static/js/jquery.nicescroll.js}"></script>
 <!--common script for all pages-->
-<script src="static/js/common-scripts.js"></script>
+<script th:src="@{../../static/js/common-scripts.js}"></script>
 
 </body>
 </html>

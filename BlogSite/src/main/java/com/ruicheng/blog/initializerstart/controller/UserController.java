@@ -89,7 +89,7 @@ public class UserController {
      */
     @GetMapping("/addUser")
     public ModelAndView createForm(Model model) {
-        model.addAttribute("user", new User(null, null, null, null));
+        model.addAttribute("user", new User(null, null, null, null, "123456"));
         model.addAttribute("title", "创建用户");
         return new ModelAndView("users/form", "userModel", model);
     }
@@ -99,7 +99,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @PostMapping("/addUser")
+    @PostMapping
     public ModelAndView saveOrUpdateUser(User user) {
         userRepository.saveOrUpdateUser(user);
         return new ModelAndView("redirect:/users");

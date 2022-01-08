@@ -71,7 +71,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public boolean verifyUser(User user) {
-		User userFound = (User) userRepository.findByUsername(user.getUsername());
+		User userFound = (User) userRepository.findByEmail(user.getPid());
+		if ( userFound == null){
+			// Try find by pid
+			userFound = (User) userRepository.findByPid(user.getPid());
+		}
 		if ( userFound != null && userFound.getPassword().equals(user.getPassword()) ){
 			return true;
 		}
@@ -79,8 +83,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return userRepository.findByUsername(username);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		return userRepository.findByEmail(email);
 	}
 
 }

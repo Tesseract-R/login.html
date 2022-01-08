@@ -13,6 +13,7 @@ import com.ruicheng.blog.initializerstart.domain.Authority;
 import com.ruicheng.blog.initializerstart.domain.User;
 import com.ruicheng.blog.initializerstart.service.AuthorityService;
 import com.ruicheng.blog.initializerstart.service.UserService;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 主页控制器.
@@ -38,6 +39,10 @@ public class MainController {
 	public String index() {
 		return "index";
 	}
+//	public ModelAndView index(Model model, User user){
+//		model.addAttribute("user", user);
+//		return new ModelAndView("index", "userModel", model);
+//	}
 
 	/**
 	 * 获取登录界面
@@ -93,5 +98,4 @@ public class MainController {
 	public String search() {
 		return "search";
 	}
-
 }

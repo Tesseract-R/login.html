@@ -31,7 +31,9 @@ public interface UserRepository {
 
 
     //  增删改查
-    UserDetails findByUsername(String username);
+    UserDetails findByEmail(String email);
+
+    UserDetails findByPid(String pid);
 
     Page<User> findByNameLike(String name, Pageable pageable);
 
