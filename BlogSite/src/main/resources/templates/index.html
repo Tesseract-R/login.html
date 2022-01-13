@@ -1,34 +1,48 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <head th:include="~{fragment/_staticLink :: link}">
     <div th:replace="~{fragment/_header :: header}"></div>
 </head>
 <body style="background-color:#F4F4F4">
-
 <aside th:replace="~{fragment/_sidebar :: sidebar}"></aside>
 
 <!--main content start-->
 <section id="main-content">
     <section class="wrapper">
         <!-- Carousel -->
-        <div style="display: flex" class="col-md-12">
-            <div class="no-gutter col-md-6 col-sm-12" style="padding: 0 0 0 0">
-                <article class="box-shadow" style="height:450px">
+        <div class="col-md-12" style="display: flex">
+            <div class="no-gutter col-md-6 col-sm-12" style="padding: 3px">
+                <article class="box-shadow" style="height:400px">
                     <div class="no-gutter" style="align-content: center">
                         <div class="col-sm-12">
                             <div class="art-content text-center">
                                 <div class="heading">
-                                    <h2>成绩检测</h2>
+                                    <h2>我的主页</h2>
                                     <hr class="line">
                                 </div>
-                                <a href="">---> 进入</a>
+                                <a href="/u/"> → 进入</a>
                             </div>
                         </div>
                     </div>
                 </article>
-                <article class="box-shadow" style="height:450px">
+                <article class="box-shadow" style="height:400px">
+                    <div class="no-gutter">
+                        <div class="col-sm-12">
+                            <div class="art-content text-center">
+                                <div class="heading">
+                                    <h2>我的班级</h2>
+                                    <hr class="line">
+                                </div>
+                                <a href="/c/"> → 进入</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="no-gutter col-md-6 col-sm-12" sec:authorize="hasRole('ADMIN')" style="padding: 3px">
+                <article class="box-shadow" style="height:400px">
                     <div class="no-gutter">
                         <div class="col-sm-12">
                             <div class="art-content text-center">
@@ -36,35 +50,20 @@
                                     <h2>用户管理</h2>
                                     <hr class="line">
                                 </div>
-                                <a href="/users">---> 进入</a>
+                                <a href="/users"> → 进入</a>
                             </div>
                         </div>
                     </div>
                 </article>
-            </div>
-            <div class="no-gutter col-md-6 col-sm-12" style="padding: 0 0 0 0">
-                <article  class="box-shadow" style="height:450px">
+                <article class="box-shadow" style="height:400px">
                     <div class="no-gutter">
                         <div class="col-sm-12">
                             <div class="art-content text-center">
                                 <div class="heading">
-                                    <h2>版本控制</h2>
+                                    <h2>系统管理</h2>
                                     <hr class="line">
                                 </div>
-                                <a href="/update_system/">---> 进入</a>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-                <article  class="box-shadow" style="height:450px">
-                    <div class="no-gutter">
-                        <div class="col-sm-12">
-                            <div class="art-content text-center">
-                                <div class="heading">
-                                    <h2>班级管理</h2>
-                                    <hr class="line">
-                                </div>
-                                <a href="/classes">---> 进入</a>
+                                <a href="/system/"> → 进入/a>
                             </div>
                         </div>
                     </div>

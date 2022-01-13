@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<nav data-th-fragment="page" data-th-if="${page.totalPages gt 0}" data-th-object="${page}">
+
+    <!-- 处理页数小于等于7 的情况 -->
+    <ul class="pagination" data-th-if="${page.totalPages le 7}">
+        <!-- 总记录数 -->
+        <div class="col-3" style="align-items: center; display:flex; padding: 0.375rem 1.75rem 0.375rem 0.75rem;">
+            <li class="tbpage-total-elements disabled" style="align-items: center; padding: 0; margin:10px 0">
+                共[[${page.totalElements}]]条
+            </li>
+        </div>
+
+        <!-- 页面大小 -->
+        <div class="col-6" style="align-items: center">
+            <select class="custom-select tbpage-size" data-th-attr="pageIndex=${page.number}">
+                <option data-th-each="i : ${#arrays.toIntegerArray({5,10,40,100})}" data-th-selected="${i eq page.size}"
+                        data-th-text="${i}" data-th-value="${i}"></option>
+            </select>
+        </div>
+
+        <!-- 上一页 -->
+        <div class="col-3" style="align-items: center; display: flex; padding: 0.375rem 1.75rem 0.375rem 0.75rem;">
+            <div class="col-4" style="padding: 0 0 0 0;  margin:10px 0">
+                <li class="page-item" data-th-classappend="*{first} ? 'disabled' : ''">
+                    <a aria-label="Previous" class="page-link tbpage-item"
+                       data-th-attr="pageIndex=${page.number} - 1" href="javascript:void(0);">
+                        <span aria-hidden="true">«</span>
+                    </a>
+                </li>
+            </div>
+
+            <!-- 迭代生成页码 -->
+            <div class="col-4" style="padding: 0 0 0 0;  margin:10px 0">
+                <li class="page-item" data-th-classappend="${(page.number + 1) eq i} ? 'active' : ''"
+                    data-th-each="i : ${#numbers.sequence(1, page.totalPages)}">
+                    <a class="page-link tbpage-item" data-th-attr="pageIndex=${i} - 1" href="javascript:void(0);">
+                        <span data-th-text="${i}"></span>
+                    </a>
+                </li>
+            </div>
+            <!-- 下一页 -->
+            <div class="col-4" style="padding: 0 0 0 0; margin:10px 0">
+                <li class="page-item" data-th-classappend="*{last} ? 'disabled' : ''">
+                    <a aria-label="Next" class="page-link tbpage-item"
+                       data-th-attr="pageIndex=${page.number} + 1" href="javascript:void(0);">
+                        <span aria-hidden="true">»</span>
+                    </a>
+                </li>
+            </div>
+        </div>
+    </ul>
+
+    <!-- 处理页数大于7 的情况 -->
+    <ul class="pagination" data-th-if="${page.totalPages gt 7}">
+        <!-- 总记录数 -->
+        <li class="tbpage-total-elements disabled">共[[${page.totalElements}]]条</li>
+
+        <!-- 页面大小 -->
+        <select class="custom-select tbpage-size" data-th-attr="pageIndex=${page.number}">
+            <option data-th-each="i : ${#arrays.toIntegerArray({5,10,40,100})}" data-th-selected="${i eq page.size}"
+                    data-th-text="${i}" data-th-value="${i}"></option>
+        </select>
+
+        <!-- 上一页 -->
+        <li class="page-item" data-th-classappend="*{first} ? 'disabled' : ''">
+            <a aria-label="Previous" class="page-link tbpage-item" data-th-attr="pageIndex=${page.number} - 1"
+               href="javascript:void(0);">
+                <span aria-hidden="true">«</span>
+            </a>
+        </li>
+
+        <!-- 首页 -->
+        <li class="page-item" data-th-classappend="${(page.number + 1) eq 1} ? 'active' : ''">
+            <a class="page-link tbpage-item" data-th-attr="pageIndex=0" href="javascript:void(0);">1</a>
+        </li>
+
+
+        <!-- 当前页面小于等于4 -->
+        <li class="page-item" data-th-classappend="${(page.number + 1) eq i} ? 'active' : ''" data-th-each="i : ${#numbers.sequence(2,5)}"
+            data-th-if="${(page.number + 1) le 4}">
+            <a class="page-link tbpage-item" data-th-attr="pageIndex=${i} - 1" href="javascript:void(0);">
+                <span data-th-text="${i}"></span>
+            </a>
+        </li>
+
+        <li class="page-item disabled" data-th-if="${(page.number + 1) le 4}">
+            <a class="page-link tbpage-item" href="javascript:void(0);">
+                <span aria-hidden="true">...</span>
+            </a>
+        </li>
+
+        <!-- 最后一页与当前页面之差，小于等于3 -->
+        <li class="page-item disabled" data-th-if="${(page.totalPages-(page.number + 1)) le 3}">
+            <a class="page-link tbpage-item" href="javascript:void(0);">
+                <span aria-hidden="true">...</span>
+            </a>
+        </li>
+        <li class="page-item" data-th-classappend="${(page.number + 1) eq i} ? 'active' : ''"
+            data-th-each="i : ${#numbers.sequence(page.totalPages-4, page.totalPages-1)}"
+            data-th-if="${(page.totalPages-(page.number + 1)) le 3}">
+            <a class="page-link tbpage-item" data-th-attr="pageIndex=${i} - 1" href="javascript:void(0);">
+                <span data-th-text="${i}"></span>
+            </a>
+        </li>
+
+        <!-- 最后一页与当前页面之差大于3，且  当前页面大于4-->
+
+        <li class="page-item disabled"
+            data-th-if="${((page.number + 1) gt 4) && ((page.totalPages-(page.number + 1)) gt 3 )}">
+            <a class="page-link tbpage-item" href="javascript:void(0);">
+                <span aria-hidden="true">...</span>
+            </a>
+        </li>
+        <li class="page-item" data-th-if="${((page.number + 1) gt 4) && ((page.totalPages-(page.number + 1)) gt 3 )}">
+            <a class="page-link tbpage-item" data-th-attr="pageIndex=${page.number}" href="javascript:void(0);">[[${page.number}]]</a>
+        </li>
+        <li class="page-item active"
+            data-th-if="${((page.number + 1) gt 4) && ((page.totalPages-(page.number + 1)) gt 3 )}">
+            <a class="page-link tbpage-item" data-th-attr="pageIndex=${page.number} + 1" href="javascript:void(0);">[[${page.number
+                + 1}]]</a>
+        </li>
+        <li class="page-item" data-th-if="${((page.number + 1) gt 4) && ((page.totalPages-(page.number + 1)) gt 3 )}">
+            <a class="page-link tbpage-item" data-th-attr="pageIndex=${page.number} + 2" href="javascript:void(0);">[[${page.number
+                + 2}]]</a>
+        </li>
+
+        <li class="page-item disabled"
+            data-th-if="${((page.number + 1) gt 4) && ((page.totalPages-(page.number + 1)) gt 3 )}">
+            <a class="page-link tbpage-item" href="javascript:void(0);">
+                <span aria-hidden="true">...</span>
+            </a>
+        </li>
+
+        <!-- 最后一页 -->
+        <li class="page-item" data-th-classappend="${(page.number + 1) eq page.totalPages} ? 'active' : ''">
+            <a class="page-link tbpage-item" data-th-attr="pageIndex=${page.totalPages} - 1" href="javascript:void(0);">[[${page.totalPages}]]</a>
+        </li>
+
+        <!-- 下一页 -->
+        <li class="page-item" data-th-classappend="*{last} ? 'disabled' : ''">
+            <a aria-label="Next" class="page-link tbpage-item" data-th-attr="pageIndex=${page.number} + 1"
+               href="javascript:void(0);">
+                <span aria-hidden="true">»</span>
+            </a>
+        </li>
+    </ul>
+
+
+</nav>
+
+</body>
+</html>

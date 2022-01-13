@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:include="~{fragment/_staticLink :: link}">
+    <div th:replace="~{fragment/_header :: header}"></div>
+</head>
+<body style="background-color:#F4F4F4">
+
+<aside th:replace="~{fragment/_sidebar :: sidebar}"></aside>
+
+
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper col-12" style="height: 800px">
+        <div class="container" id="mainContainer">
+            <div class="row" id="mainContainerRepleace">
+                <!-- Carousel -->
+                <div class="col-md-12" style="position: center">
+                    <div class="text-center tm-hero-text-container">
+                        <h3 th:text="${classModel.title}"></h3>
+
+                        <!-- 基本信息  -->
+                        <div class="card-header bg-light col-12" style="text-align: left; padding: 5px; margin: 5px">
+                            <h4 class="col-12">基本信息</h4>
+                        </div>
+                        <div class="card-body bg-light col-12"
+                             style="padding: 20px; margin: 5px; display: flex; align-items: flex-start;">
+                            <div class="col-9" style="text-align: left">
+                                <p><strong>ID: </strong><span th:text="${classModel.class.id}"></span></p>
+                                <p><strong>班名: </strong><span th:text="${classModel.class.classname}"></span></p>
+                                <p><strong>创始人: </strong><span th:text="${classModel.class.creator}"></span></p>
+                                <p><strong>创始时间: </strong><span th:text="${classModel.class.createTime}"></span></p>
+                                <p><strong>班级信息: </strong><span th:text="${classModel.class.info}"></span></p>
+                            </div>
+                            <div class="btn-group col-3" style="align-items: stretch; flex-direction: column;">
+                                <button>添加管理员</button>
+                                <button>添加学生</button>
+                            </div>
+                        </div>
+
+                        <div class="card-header bg-light col-12"
+                             style="text-align: left; padding: 5px; margin: 20px 5px">
+                            <h4 class="col-12">班级成员</h4>
+                        </div>
+                        <div class="card-body"
+                             style="padding: 20px; margin: 5px; display: contents; align-items: flex-start;">
+                            <h4 class="col-12">老师/助教</h4>
+                            <table border="1" class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <td> ID</td>
+                                    <td> 姓名</td>
+                                    <td> 操作</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:if="${classModel.adminList.size()} eq 0">
+                                    <td colspan="6">班级内目前没有管理员</td>
+                                </tr>
+                                <tr th:each="teacher : ${classModel.adminList}">
+                                    <td th:text="${teacher.id}"></td>
+                                    <td th:text="${teacher.username}"></td>
+                                    <td>
+                                        <div>
+                                            <a class="blog-info-user" data-th-attr="userId=${teacher.id}" role="button"
+                                               th:href="@{'/users/'+${teacher.id}}"><i aria-hidden="true"
+                                                                                      class="fa fa-info-circle"></i></a>
+                                            <a class="blog-delete-user" data-th-attr="userId=${teacher.id}"
+                                               role="button" th:href="@{'/users/delete/'+${teacher.id}}"> <i aria-hidden="true"
+                                                                                                     class="fa fa-times"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <h4 class="col-12">学生</h4>
+                            <table border="1" class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <td> ID</td>
+                                    <td> 学号</td>
+                                    <td> 姓名</td>
+                                    <td> 操作</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:if="${classModel.studentList.size()} eq 0">
+                                    <td colspan="6">班级内目前没有学生</td>
+                                </tr>
+                                <tr th:each="student : ${classModel.studentList}">
+                                    <td th:text="${student.id}"></td>
+                                    <td th:text="${student.pid}"></td>
+                                    <td th:text="${student.username}"></td>
+                                    <td>
+                                        <div>
+                                            <a class="blog-info-user" data-th-attr="userId=${student.id}" role="button"
+                                               th:href="@{'/users/'+${student.id}}"><i aria-hidden="true"
+                                                                                      class="fa fa-info-circle"></i></a>
+                                            <a class="blog-delete-user" data-th-attr="userId=${student.id}"
+                                               role="button" th:href="@{'/users/delete/'+${student.id}}"> <i aria-hidden="true"
+                                                                                                     class="fa fa-times"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+
+<!--尾部信息-->
+<div th:replace="~{fragment/_footer :: footer}"></div>
+
+
+<!-- js placed at the end of the document so the pages load faster -->
+<script th:src="@{../../static/js/jquery.nicescroll.js}"></script>
+<!--common script for all pages-->
+<script th:src="@{../../static/js/common-scripts.js}"></script>
+
+</body>
+</html>

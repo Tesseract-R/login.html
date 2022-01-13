@@ -89,3 +89,74 @@ Gradle Wrapper: 统一所有人的项目配置
 
 
 
+# 架构
+
+按业务功能进行分层
+
+-   表示层（控制器+视图）
+    -   Controller
+    -   View
+-   业务层（模型）
+    -   Entity
+    -   VO
+    -   Service
+-   数据访问层（DAO）
+    -   Repository
+
+
+
+# `Bootstrap`
+
+常用组件、样式：
+
+-   Typography
+-   Table
+-   Form
+-   Button
+-   Dropdown
+-   Button Group
+-   Input Group
+-   Navbar
+-   Pagination
+-   Tag
+-   Alert
+-   Modal Dialog
+-   Progress Bar
+-   List Group
+-   Card
+-   Tooltip
+
+
+
+# 权限管理（Spring Security）
+
+-   显式访问控制
+    -   与单个功能联系
+    -   更灵活
+-   隐式访问控制
+    -   与角色联系
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

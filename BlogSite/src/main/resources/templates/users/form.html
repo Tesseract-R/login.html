@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+>
 <head th:include="~{fragment/_staticLink :: link}">
     <div th:replace="~{fragment/_header :: header}"></div>
 </head>
@@ -12,33 +12,34 @@
 <!--main content start-->
 <section id="main-content">
     <section class="wrapper col-12" style="height: 800px">
-        <div id="mainContainer" class="container">
-            <div id="mainContainerRepleace" class="row">
+        <div class="container" id="mainContainer">
+            <div class="row" id="mainContainerRepleace">
                 <!-- Carousel -->
-                <div style="position: center" class="col-md-12">
+                <div class="col-md-12" style="position: center">
                     <div class="text-center tm-hero-text-container">
                         <h3 th:text="${userModel.title}"></h3>
-                        <form action="/users" th:action="@{/users}" method="post" th:object="${userModel.user}">
+                        <form action="/users" method="post" th:action="@{/users}" th:object="${userModel.user}">
 
-                            <p th:if="*{id} neq null" name="id">ID: <span th:text="*{id}"></span><input type="hidden" name="id" th:value="*{id}"></p>
+                            <input name="id" th:value="*{id}" type="hidden">
 
                             <p>学号：<br>
-                                <input type="text" name="pid" required="true" οnkeyup="value=value.replace(/[^\d]/g,'')" placehoder="请输入数字" th:value="*{pid}"/>
-                            <br></p>
+                                <input name="pid" placehoder="请输入数字" required="true" th:value="*{pid}"
+                                       type="text" οnkeyup="value=value.replace(/[^\d]/g,'')"/>
+                                <br></p>
 
                             <p>姓名：<br>
-                                <input type="text" name="name" required="true" th:value="*{name}"/>
-                            <br></p>
+                                <input name="username" required="true" th:value="*{username}" type="text"/>
+                                <br></p>
 
                             <p>邮箱：<br>
-                                <input type="text" name="email" required="true" th:value="*{email}"/>
-                            <br></p>
+                                <input name="email" required="true" th:value="*{email}" type="text"/>
+                                <br></p>
 
                             <p>密码：<br>
-                                <input type="text" name="password" required="true" th:value="*{password}"/>
-                            <br></p>
+                                <input name="password" required="true" th:value="*{password}" type="text"/>
+                                <br></p>
 
-                            <input type="submit" name="提交">
+                            <input name="提交" type="submit">
                         </form>
                     </div>
                 </div>

@@ -1,51 +1,62 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+>
 <head th:include="~{fragment/_staticLink :: link}">
-	<div th:replace="~{fragment/_header :: header}"></div>
+    <div th:replace="~{fragment/_header :: header}"></div>
 </head>
 
-<body data-new-gr-c-s-check-loaded="14.984.0" data-gr-ext-installed="">
+<body data-gr-ext-installed="" data-new-gr-c-s-check-loaded="14.984.0">
 <div class="body">
-	<div class="wrap col-12">
-		<div class="container blog-content-container col-12">
-			<form  class="form-signin col-12" th:action="@{/login}" method="post">
-				<div class="left col-md-6"><video src="static/video/globe-500.h264.mp4" muted autoplay loop></video></div>
-				<div class="right inputbox col-md-6">
-					<div class="right-col col-md-8" style="display: inline-block">
-						<h2 class="form-signin-heading">登录系统</h2>
+    <div class="wrap col-12">
+        <div class="container blog-content-container col-12">
+            <form class="form-signin col-12" method="post" th:action="@{/login}">
+                <div class="left col-md-6">
+                    <video autoplay loop muted src="static/video/globe-500.h264.mp4"></video>
+                </div>
+                <div class="right inputbox col-md-6">
+                    <div class="right-col col-md-8" style="display: inline-block">
+                        <h2 class="form-signin-heading">登录系统</h2>
 
-						<div class="form-group col-md-12">
-							<label for="pid" class="col-form-label" style="font: 20px bold">账号：</label>
-							<input type="text" class="form-control" id="pid" name="pid" maxlength="50" placeholder="请输入邮箱/学号/教师编号">
-						</div>
-						<div class="form-group col-md-12">
-							<label for="password" class="col-form-label" style="font: 20px bold">密码：</label>
-							<input type="password" class="form-control" id="password" name="password" maxlength="30" placeholder="请输入密码" >
-						</div>
-						<div class="form-group col-md-12">
-							<input type="checkbox" name="remember-me" style="position:center; margin-top: 20px"> <label style="font: 20px bold">记住我</label>
-						</div>
-						<div class="buttons col-md-12">
-							<div class="form-group col-md-6">
-								<button type="submit" class="btn btn-lg btn-primary btn-block" style="position: center; font: 20px bold">登录</button>
-							</div>
-							<div class="form-group col-md-6">
-								<a href="/register" th:href="@{~/register}"><button type="button" class="btn btn-lg btn-primary btn-block" style="text-align: center; font: 20px bold">注册</button></a> </div>
-						</div>
+                        <div class="form-group col-md-12">
+                            <label class="col-form-label" for="username" style="font: 20px bold">账号：</label>
+                            <input class="form-control" id="username" maxlength="50" name="username" placeholder="请输入学号/教师编号"
+                                   type="text">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="col-form-label" for="password" style="font: 20px bold">密码：</label>
+                            <input class="form-control" id="password" maxlength="30" name="password" placeholder="请输入密码"
+                                   type="password">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <input name="remember-me" style="position:center; margin-top: 20px" type="checkbox"> <label
+                                style="font: 20px bold">记住我</label>
+                        </div>
+                        <div class="buttons col-md-12">
+                            <div class="form-group col-md-6">
+                                <button class="btn btn-lg btn-primary btn-block" style="position: center; font: 20px bold"
+                                        type="submit">登录
+                                </button>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <a href="/register" th:href="@{~/register}">
+                                    <button class="btn btn-lg btn-primary btn-block" style="text-align: center; font: 20px bold"
+                                            type="button">注册
+                                    </button>
+                                </a></div>
+                        </div>
 
-						<div class=" col-md-12" th:if="${loginError}">
-							<p class="blog-label-error" style="color: red; font: 14px bold" th:text="${errorMsg}"></p>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div> <!-- /container -->
+                        <div class=" col-md-12" th:if="${loginError}">
+                            <p class="blog-label-error" style="color: red; font: 14px bold" th:text="${errorMsg}"></p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div> <!-- /container -->
 
 
-
-	</div>
-	<div th:replace="~{fragment/_footer :: footer}"></div>
+    </div>
+    <div th:replace="~{fragment/_footer :: footer}"></div>
 </div>
 
 </body>

@@ -1,7 +1,10 @@
 {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin: 0
+;
+    padding: 0
+;
+    box-sizing: border-box
+;
 }
 body {
     width: 100%;
@@ -9,7 +12,8 @@ body {
     background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     display: grid;
 }
-.wrap{
+
+.wrap {
     width: 100%;
     height: 100%;
     display: flex;
@@ -17,65 +21,75 @@ body {
     align-items: center;
     padding-top: 80px;
 }
-.blog-content-container{
+
+.blog-content-container {
     width: 900px;
     height: 600px;
     display: flex;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 25px 45px rgba(0,0,0,0.1);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
 }
-.left{
+
+.left {
     width: 500px;
     height: 600px;
 }
-.left video{
+
+.left video {
     width: 100%;
     height: 100%;
     object-fit: cover;
     background: #70b4e3;
     overflow: hidden;
 }
-.right{
+
+.right {
     width: 400px;
     height: 600px;
-    background: rgba(255,255,255,0);
+    background: rgba(255, 255, 255, 0);
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.right-col{
+
+.right-col {
     width: 70%;
     display: flex;
     flex-direction: column;
     text-align: center;
 }
-h2{
+
+h2 {
     font-size: 26px;
     color: #70b4e3;
     font-weight: 400;
     padding-bottom: 10px;
 }
-.form-group{
+
+.form-group {
     margin: 0 0 0 0;
     padding-bottom: 0;
     text-align: center;
     position: center;
 }
-.col-form-label{
+
+.col-form-label {
     font-size: 20px;
     font-weight: 400;
     color: #495057;
     padding: 0 0;
 }
-.form-control{
+
+.form-control {
     width: 200px;
     outline: none;
     border: none;
     font-size: 20px;
-    background: rgba(0,0,0,0);
+    background: rgba(0, 0, 0, 0);
 }
-.buttons{
+
+.buttons {
     display: flex;
     align-items: center;
     margin: auto;
@@ -88,15 +102,18 @@ h2{
     display: flex;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 25px 45px rgba(0,0,0,0.1);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
 }
+
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
     margin-bottom: 10px;
 }
+
 .form-signin .checkbox {
     font-weight: normal;
 }
+
 .form-signin .form-control {
     position: relative;
     height: auto;
@@ -106,6 +123,7 @@ h2{
     padding: 10px;
     font-size: 16px;
 }
+
 .form-signin .form-control:focus {
     z-index: 2;
 }

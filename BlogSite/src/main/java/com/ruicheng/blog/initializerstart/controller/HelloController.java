@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Hello控制器
+ * For Test Only
  *
  * @author ：Ruicheng
  * @date ：Created in 2021/11/9 17:35
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @RequestMapping("/hello")
-    public String Hello(){
+    public String Hello() {
         return "Hello World!";
     }
 }

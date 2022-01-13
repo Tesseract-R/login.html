@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Evaluation System</title>
@@ -13,19 +14,41 @@
     </div>
 
     <!--logo start-->
-    <a href="#" class="logo"><strong>学习状况评估监测系统</strong></a>
+    <a class="logo" href="#"><strong>学习状况评估监测系统</strong></a>
     <!--logo end-->
+    <div sec:authorize="isAnonymous()">
+        <div class="top-menu" style="position: center; padding-top: 17px">
+            <ul class="nav pull-right top-menu">
+                <li><a class="social" href="/register" th:href="@{~/register}">注册</a></li>
+            </ul>
+            <ul class="nav pull-right top-menu">
+                <li><a class="social" href="/login" th:href="@{~/login}">登录</a></li>
+            </ul>
+            <ul class="nav pull-right top-menu">
+                <li><a class="social" href="/" th:href="@{~/}">首页</a></li>
+            </ul>
+        </div>
+    </div>
 
-    <div class="top-menu" style="position: center; padding-top: 17px">
-        <ul class="nav pull-right top-menu">
-            <li><a class="social" href="/register" th:href="@{~/register}">注册</a></li>
-        </ul>
-        <ul class="nav pull-right top-menu">
-            <li><a class="social" href="/login" th:href="@{~/login}">登录</a></li>
-        </ul>
-        <ul class="nav pull-right top-menu">
-            <li><a class="social" href="/" th:href="@{~/}">首页</a></li>
-        </ul>
+    <div sec:authorize="isAuthenticated()">
+        <div class="top-menu" style="position: center; padding-top: 17px">
+            <ul class="nav pull-right top-menu">
+                <li>
+                    <form class="social" method="post" style="padding: 0; margin: 0" th:action="@{~/logout}">
+                        <button class="btn" style="padding: 0" type="submit">
+                            <a style="padding: 5px 15px; border: 1px solid #fff; -webkit-border-radius: 4px;">退出</a>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+            <ul class="nav pull-right top-menu">
+                <li style="color: #f2f2f2; font-size: 16px; padding-right: 10px;">你好，<span
+                        sec:authentication="name"></span></li>
+            </ul>
+            <ul class="nav pull-right top-menu">
+                <li><a class="social" href="/" th:href="@{~/}">首页</a></li>
+            </ul>
+        </div>
     </div>
 </header>
 

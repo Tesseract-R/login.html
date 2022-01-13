@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
 <head>
     <meta charset="UTF-8">
     <title>Evaluation System</title>
@@ -9,14 +11,14 @@
 <!--sidebar start-->
 <aside th:fragment="sidebar">
     <div class="sideNav" role="navigation" style="position:absolute; background-color:rgba(0,0,0,0); border-right:0px">
-        <div id="sidebar"  class="nav-collapse ">
+        <div class="nav-collapse " id="sidebar">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="side-menu">
                 <li>
                     <a href="/"><i class="fa fa-tags"></i>首页</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-tags"></i>学生信息<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-tags"></i>看板<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="/view_detail/">近期学习监测</a>
@@ -33,30 +35,33 @@
                     <a href="#"><i class="fa fa-tags"></i>后台管理<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="/update_detail/">班级管理</a>
-                        </li>
-                        <li>
-                            <a href="/update_detail/">更新成绩</a>
-                        </li>
-                        <li>
                             <a th:href="@{'/users/'}">用户管理</a>
                         </li>
                         <li>
-                            <a href="/updateSystem">更新系统</a>
+                            <a th:href="@{'/classes/'}">班级管理</a>
+                        </li>
+                        <li>
+                            <a href="/update_detail/">成绩管理</a>
+                        </li>
+                        <li>
+                            <a href="/updateSystem">系统管理</a>
                         </li>
                     </ul>
                 </li>
 
-<!--                <li>-->
-<!--                    <a href="#"><i class="fa fa-tags"></i>系统维护<span class="fa arrow"></span></a>-->
-<!--                    <ul class="nav nav-second-level">-->
-<!--                        -->
-<!--                    </ul>-->
-<!--                </li>-->
+                <!--                <li>-->
+                <!--                    <a href="#"><i class="fa fa-tags"></i>系统维护<span class="fa arrow"></span></a>-->
+                <!--                    <ul class="nav nav-second-level">-->
+                <!--                        -->
+                <!--                    </ul>-->
+                <!--                </li>-->
 
                 <li>
                     <a href="#"><i class="fa fa-tags"></i>我的信息<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
+                        <li>
+                            <a th:href="@{'/u/'}">我的主页</a>
+                        </li>
                         <li>
                             <a href="/updateMyPassword">修改我的密码</a>
                         </li>
@@ -69,7 +74,6 @@
     </div>
 </aside>
 <!--sidebar end-->
-
 
 
 </body>

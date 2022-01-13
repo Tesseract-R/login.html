@@ -1,51 +1,40 @@
 package com.ruicheng.blog.initializerstart.domain;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * 用户实体
+ *
  * @author ：Ruicheng
  * @date ：Created in 2021/11/12 10:51
  */
 @Entity // persistence 持久化
-public class User implements UserDetails, Serializable{
+public class User implements UserDetails, Serializable {
     @Id // 主键
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增长策略
     private Long id;
 
     @NotEmpty(message = "账号不能为空")
-    @Pattern(regexp = "[0-9]")
-    @Size(min=1, max=20)
+    @Size(min = 1, max = 20)
     private String pid; // 用户账号，用户登录时的唯一标识
 
     @NotEmpty(message = "姓名不能为空")
-    @Size(min=2, max=20)
+    @Size(min = 2, max = 20)
     @Column(nullable = false, length = 20) // 映射为字段，值不能为空
-    private String name;
+    private String username;
 
     @NotEmpty(message = "邮箱不能为空")
     @Size(max = 50)
@@ -53,13 +42,8 @@ public class User implements UserDetails, Serializable{
     @Column(nullable = false, length = 50, unique = true)
     private String email;
 
-//    @NotEmpty(message = "账号不能为空")
-//    @Size(min=3, max=20)
-//    @Column(nullable = false, length = 20, unique = true)
-//    private String username; // 用户账号，用户登录时的唯一标识
-
     @NotEmpty(message = "密码不能为空")
-    @Size(max=100)
+    @Size(max = 100)
     @Column(length = 100)
     private String password; // 登录时密码
 
@@ -71,12 +55,15 @@ public class User implements UserDetails, Serializable{
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
 
-    protected User(){};
+    protected User() {
+    }
 
-    public User(Long id, String pid, String name, String email, String password){
+    ;  // 防止直接使用
+
+    public User(Long id, String pid, String username, String email, String password) {
         this.id = id;
         this.pid = pid;
-        this.name = name;
+        this.username = username;
         this.email = email;
         this.password = password;
     }
@@ -85,26 +72,28 @@ public class User implements UserDetails, Serializable{
         return this.id;
     }
 
-    public String getPid() { return this.pid;}
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getPid() {
+        return this.pid;
     }
 
     public void setPid(String pid) {
         this.pid = pid;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(String name) {
+        this.username = name;
+    }
+
+    public String getEmail() {
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -116,7 +105,7 @@ public class User implements UserDetails, Serializable{
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //  需将 List<Authority> 转成 List<SimpleGrantedAuthority>，否则前端拿不到角色列表名称
         List<SimpleGrantedAuthority> simpleAuthorities = new ArrayList<>();
-        for(GrantedAuthority authority : this.authorities){
+        for (GrantedAuthority authority : this.authorities) {
             simpleAuthorities.add(new SimpleGrantedAuthority(authority.getAuthority()));
         }
         return simpleAuthorities;
@@ -131,11 +120,6 @@ public class User implements UserDetails, Serializable{
         return password;
     }
 
-    @Override
-    public String getUsername() {
-        return String.valueOf(this.pid);
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -144,11 +128,6 @@ public class User implements UserDetails, Serializable{
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         this.password = encoder.encode(password);
     }
-
-//    @Override
-//    public String getUsername() {
-//        return username;
-//    }
 
     public String getAvatar() {
         return avatar;
@@ -183,7 +162,7 @@ public class User implements UserDetails, Serializable{
         return "User{" +
                 "id=" + id +
                 ", pid=" + pid +
-                ", name='" + name + '\'' +
+                ", name='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", authorities=" + authorities +
