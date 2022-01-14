@@ -4,7 +4,9 @@ import com.ruicheng.blog.initializerstart.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * User 服务接口.
@@ -19,6 +21,7 @@ public interface UserService {
      * @return
      */
     User saveUser(User user);
+    void saveAll(Collection<User> userList);
 
     /**
      * 删除用户

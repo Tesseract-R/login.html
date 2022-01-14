@@ -1,6 +1,7 @@
 package com.ruicheng.blog.initializerstart.service;
 
 import com.ruicheng.blog.initializerstart.domain.Class;
+import com.ruicheng.blog.initializerstart.domain.User;
 import com.ruicheng.blog.initializerstart.repository.ClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,7 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author ：Ruicheng
@@ -22,6 +25,8 @@ public class ClassServiceImpl implements ClassService {
     @Transactional
     @Override
     public Class saveClass(Class c) {
+        System.out.println("课程存储");
+        System.out.println(c.getStudents());
         return classRepository.save(c);
     }
 
@@ -56,5 +61,16 @@ public class ClassServiceImpl implements ClassService {
         name = "%" + name + "%";
         Page<Class> classes = classRepository.findByClassnameLike(name, pageable);
         return classes;
+    }
+
+    @Override
+    public void removeUserFromClass(Class c, String role, User user) {
+        if (role.equals("Student")){
+            c.removeStudent(user);
+        }
+        if (role.equals("Admin")) {
+            c.removeTeacher(user);
+        }
+        System.out.println("课程成员删除: " + user);
     }
 }

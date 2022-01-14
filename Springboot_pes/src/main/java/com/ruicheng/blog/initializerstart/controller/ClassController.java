@@ -3,6 +3,7 @@ package com.ruicheng.blog.initializerstart.controller;
 import com.ruicheng.blog.initializerstart.domain.Class;
 import com.ruicheng.blog.initializerstart.domain.User;
 import com.ruicheng.blog.initializerstart.service.ClassService;
+import com.ruicheng.blog.initializerstart.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.ConstraintViolationException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +35,9 @@ public class ClassController {
 
     @Autowired
     private ClassService classService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 查询所有班级
@@ -62,7 +68,7 @@ public class ClassController {
      * @param model
      * @return
      */
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ModelAndView view(@PathVariable("id") Long id, Model model) {
         Class c = classService.getClassById(id);
         Set<User> teachers = c.getTeachers();
@@ -135,13 +141,102 @@ public class ClassController {
     }
 
     /**
-     * 删除用户
+     * 删除班级
      */
     @GetMapping("/delete/{id}")
     public ModelAndView view(@PathVariable("id") Long id) {
         classService.removeClass(id);
         return new ModelAndView("redirect:/classes");
     }
+
+
+    /**
+     * 班级添加用户
+     */
+    @GetMapping("/{classid}/add{Role}")
+    public ModelAndView addStudent(@PathVariable("classid") Long id, @PathVariable("Role") String role, Model model) {
+        Class c = classService.getClassById(id);
+        String title;
+        Set<User> selectedList;
+        if (role.equals("Student")){
+            title = "添加学生";
+            selectedList = c.getStudents();
+        }
+        else{
+            title = "添加管理员";
+            selectedList = c.getTeachers();
+        }
+        ArrayList<User> userList = (ArrayList<User>) userService.listUsers();
+        for (User user: userList){
+            user.setTmpField("False");
+        }
+        for (User user: selectedList){
+            user.setTmpField("True");
+        }
+        userService.saveAll(userList);
+        userService.saveAll(selectedList);
+        userList = (ArrayList<User>) userService.listUsers();
+        System.out.println(userList);
+        model.addAttribute("title", title);
+        model.addAttribute("role", role);
+        model.addAttribute("c", c);
+        model.addAttribute("userList", userList);
+        return new ModelAndView("classes/addUser", "classModel", model);
+    }
+
+    /**
+     * 班级添加管理员
+     */
+//    @GetMapping("/{classid}/addAdmin")
+//    public ModelAndView addAdmin(@PathVariable("classid") Long id, Model model) {
+//        Class c = classService.getClassById(id);
+//        model.addAttribute("title", "添加管理员");
+//        model.addAttribute("role", "admin");
+//        model.addAttribute("class", c);
+//        return new ModelAndView("redirect:/classes/addUser", "classModel", model);
+//    }
+
+    /**
+     * 班内增加用户
+     */
+    @GetMapping("/{classid}/add{role}/{id}")
+    public ModelAndView addUserToClass(@PathVariable("classid") Long classid, @PathVariable("role") String role,@PathVariable("id") Long userid){
+        Class currentClass = classService.getClassById(classid);
+        User userToBeAdded = userService.getUserById(userid);
+        if (role.equals("Admin"))
+            currentClass.addTeacher(userToBeAdded);
+        else if (role.equals("Student"))
+            currentClass.addStudent(userToBeAdded);
+        classService.saveClass(currentClass);
+        return new ModelAndView("redirect:/classes/{classid}/add{role}");
+    }
+
+
+    /**
+     * 班内删除用户
+     */
+    @GetMapping("/{classid}/delete{role}/{id}")
+    public ModelAndView removeUserFromClass(@PathVariable("classid") Long classid, @PathVariable("role") String role,@PathVariable("id") Long userid) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) auth.getPrincipal();
+        Class currentClass = classService.getClassById(classid);
+        User userToBeRemoved = userService.getUserById(userid);
+        if (currentUser.getUsername().equals(currentClass.getCreator()) || !role.equals("admin")){
+            if (!userid.equals(currentUser.getId()) || !role.equals("admin")){
+                if (role.equals("Admin"))
+                    currentClass.removeTeacher(userToBeRemoved);
+                else if (role.equals("Student"))
+                    currentClass.removeStudent(userToBeRemoved);
+            }
+        }
+        classService.saveClass(currentClass);
+        return new ModelAndView("redirect:/classes/{classid}");
+    }
+
+
+
+
+
 
 
 }

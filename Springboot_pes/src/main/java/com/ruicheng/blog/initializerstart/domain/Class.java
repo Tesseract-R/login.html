@@ -91,10 +91,18 @@ public class Class implements Serializable {
         this.teachers.add(newTeacher);
         this.userNum += 1;
     }
-
     public void addStudent(User newStudent) {
         this.students.add(newStudent);
         this.userNum += 1;
+    }
+    public void removeStudent(User user) {
+        this.students.removeIf(u -> user.getId().equals(u.getId()));
+        this.userNum -= 1;
+        System.out.println(this.students);
+    }
+    public void removeTeacher(User user) {
+        this.teachers.removeIf(u -> user.getId().equals(u.getId()));
+        this.userNum -= 1;
     }
 
     public String getCreator() {
@@ -132,4 +140,5 @@ public class Class implements Serializable {
     public void setUserNum(int userNum) {
         this.userNum = userNum;
     }
+
 }

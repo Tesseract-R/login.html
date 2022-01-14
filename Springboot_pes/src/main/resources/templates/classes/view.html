@@ -12,7 +12,7 @@
 
 <!--main content start-->
 <section id="main-content">
-    <section class="wrapper col-12" style="height: 800px">
+    <section class="wrapper col-12" style="height: auto">
         <div class="container" id="mainContainer">
             <div class="row" id="mainContainerRepleace">
                 <!-- Carousel -->
@@ -34,8 +34,8 @@
                                 <p><strong>班级信息: </strong><span th:text="${classModel.class.info}"></span></p>
                             </div>
                             <div class="btn-group col-3" style="align-items: stretch; flex-direction: column;">
-                                <button>添加管理员</button>
-                                <button>添加学生</button>
+                                <a role="button" class="btn btn-small" data-target="#flipFlop" th:href="@{${classModel.class.id}+'/addAdmin'}">添加管理员</a>
+                                <a role="button" class="btn btn-small btn-dark" data-target="#flipFlop" th:href="@{${classModel.class.id}+'/addStudent'}">添加学生</a>
                             </div>
                         </div>
 
@@ -64,11 +64,11 @@
                                     <td>
                                         <div>
                                             <a class="blog-info-user" data-th-attr="userId=${teacher.id}" role="button"
-                                               th:href="@{'/users/'+${teacher.id}}"><i aria-hidden="true"
-                                                                                      class="fa fa-info-circle"></i></a>
+                                               th:href="@{'/users/'+${teacher.id}}">
+                                                <i aria-hidden="true" class="fa fa-info-circle"></i></a>
                                             <a class="blog-delete-user" data-th-attr="userId=${teacher.id}"
-                                               role="button" th:href="@{'/users/delete/'+${teacher.id}}"> <i aria-hidden="true"
-                                                                                                     class="fa fa-times"></i></a>
+                                               role="button" th:href="@{'/classes/'+${classModel.class.id}+'/deleteAdmin/'+${teacher.id}}">
+                                                <i aria-hidden="true" class="fa fa-times"></i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -96,19 +96,17 @@
                                     <td>
                                         <div>
                                             <a class="blog-info-user" data-th-attr="userId=${student.id}" role="button"
-                                               th:href="@{'/users/'+${student.id}}"><i aria-hidden="true"
-                                                                                      class="fa fa-info-circle"></i></a>
+                                               th:href="@{'/classes/'+${classModel.class.id}+'/'+${student.id}}">
+                                                <i aria-hidden="true" class="fa fa-info-circle"></i></a>
                                             <a class="blog-delete-user" data-th-attr="userId=${student.id}"
-                                               role="button" th:href="@{'/users/delete/'+${student.id}}"> <i aria-hidden="true"
-                                                                                                     class="fa fa-times"></i></a>
+                                               role="button" th:href="@{'/classes/'+${classModel.class.id}+'/deleteStudent/'+${student.id}}">
+                                                <i aria-hidden="true" class="fa fa-times"></i></a>
                                         </div>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -118,7 +116,7 @@
 
 
 <!--尾部信息-->
-<div th:replace="~{fragment/_footer :: footer}"></div>
+<!--<div th:replace="~{fragment/_footer :: footer}"></div>-->
 
 
 <!-- js placed at the end of the document so the pages load faster -->

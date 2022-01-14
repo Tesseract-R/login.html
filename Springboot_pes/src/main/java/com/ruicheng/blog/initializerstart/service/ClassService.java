@@ -1,6 +1,7 @@
 package com.ruicheng.blog.initializerstart.service;
 
 import com.ruicheng.blog.initializerstart.domain.Class;
+import com.ruicheng.blog.initializerstart.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -24,4 +25,6 @@ public interface ClassService {
     List<Class> listClasses();
 
     Page<Class> listClassesByNameLike(String name, Pageable pageable);
+
+    void removeUserFromClass(Class c, String role, User user);
 }

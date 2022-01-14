@@ -3,6 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
 >
 <head th:include="~{fragment/_staticLink :: link}">
+
     <div th:replace="~{fragment/_header :: header}"></div>
 </head>
 <body style="background-color:#F4F4F4">
@@ -21,27 +22,25 @@
 
                         <div class="card-header bg-light">
                             <div class="input-group col-md-7 col-xl-6" style="padding: 0 0 0 0">
-                                <input class="form-control" id="searchName" placeholder="输入用户名称进行搜索" style="margin-top: 0"
+                                <input class="form-control" id="searchName" placeholder="输入用户名称进行搜索"
+                                       style="margin-top: 0"
                                        type="text">
                                 <span class="input-group-btn"
                                       style="height: 40px; display: flex; vertical-align: middle">
                                   <button class="btn btn-secondary" id="searchNameBtn" style="height: 40px"
                                           type="button">
-                                      <div><i aria-hidden="true" class="fa fa-search"
+                                      <div style="display: flex"><i aria-hidden="true" class="fa fa-search"
                                               style="position: center"></i></div>
                                   </button>
                               </span>
                                 <a th:href="@{'/users/addUser'}">
                                   <span class="input-group-btn"
                                         style="height: 40px; display: flex; vertical-align: middle">
-                                 <button class="btn btn-secondary" id="addUserBtn" style="height: 40px" type="button">
-                                      <div><i aria-hidden="true" class="fa fa-plus" style="position: center"></i></div>
+                                 <button class="btn btn-primary" id="addUserBtn" data-target="#flipFlop" style="height: 40px" type="button">
+                                      <div style="display: flex"><i aria-hidden="true" class="fa fa-plus" style="position: center"></i></div>
                                   </button>
                                 </span>
                                 </a>
-
-                                <a class="btn btn-primary" data-target="#flipFlop" data-toggle="model" id="addUser"
-                                   role="button" style="height: 40px"><i aria-hidden="true" class="fa fa-plus"></i></a>
 
                             </div>
                         </div>
@@ -72,21 +71,18 @@
                                     <!--              <a th:href="@{'/users/modify/'+${user.id}}">修改</a>-->
                                     <!--              <a th:href="@{'/users/delete/'+${user.id}}">删除</a>-->
                                     <div>
-                                        <a class="blog-edit-user" data-target="#flipFlop" data-th-attr="userId=${user.id}"
-                                           data-toggle="modal" role="button"> <i
-                                                aria-hidden="true" class="fa fa-pencil-square-o"></i></a>
-                                        <a class="blog-delete-user" data-th-attr="userId=${user.id}" role="button"> <i
-                                                aria-hidden="true" class="fa fa-times"></i></a>
-
                                         <a class="blog-info-user" data-th-attr="userId=${user.id}" role="button"
-                                           th:href="@{'/users/'+${user.id}}"><i aria-hidden="true"
-                                                                               class="fa fa-info-circle"></i></a>
+                                           th:href="@{'/users/'+${user.id}}">
+                                            <i aria-hidden="true" class="fa fa-info-circle"></i>
+                                        </a>
                                         <a class="blog-edit-user" data-th-attr="userId=${user.id}" role="button"
-                                           th:href="@{'/users/modify/'+${user.id}}"> <i aria-hidden="true"
-                                                                                class="fa fa-pencil-square-o"></i></a>
+                                           th:href="@{'/users/modify/'+${user.id}}">
+                                            <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
+                                        </a>
                                         <a class="blog-delete-user" data-th-attr="userId=${user.id}"
-                                           role="button" th:href="@{'/users/delete/'+${user.id}}"> <i aria-hidden="true"
-                                                                                              class="fa fa-times"></i></a>
+                                           role="button" th:href="@{'/users/delete/'+${user.id}}">
+                                            <i aria-hidden="true" class="fa fa-times"></i>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>

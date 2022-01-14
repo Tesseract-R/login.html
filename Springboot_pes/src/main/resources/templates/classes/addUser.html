@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:include="~{fragment/_staticLink :: link}">
+
+    <div th:replace="~{fragment/_header :: header}"></div>
+</head>
+<body style="background-color:#F4F4F4">
+
+<aside th:replace="~{fragment/_sidebar :: sidebar}"></aside>
+
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper col-12" style="height: 800px">
+        <div class="container" id="mainContainer">
+            <div class="row" id="mainContainerRepleace">
+                <!-- Carousel -->
+                <div class="col-md-12" style="position: center">
+                    <div class="text-center tm-hero-text-container">
+                        <h3 style="color: black" th:text="${classModel.title}"></h3>
+                        <div class="col-6" style="display: flex; height: 30px"> <a th:href="@{'/classes/'+${classModel.c.id}}"> <- 回到班级信息页 </a></div>
+                        <div class="card-header bg-light">
+                            <div class="input-group col-md-7 col-xl-6" style="padding: 0 0 0 0">
+                                <input class="form-control" id="searchName" placeholder="输入用户名称进行搜索"
+                                       style="margin-top: 0"
+                                       type="text">
+                                <span class="input-group-btn"
+                                      style="height: 40px; display: flex; vertical-align: middle">
+                                  <button class="btn btn-secondary" id="searchNameBtn" style="height: 40px"
+                                          type="button">
+                                      <div style="display: flex"><i aria-hidden="true" class="fa fa-search"
+                                              style="position: center"></i></div>
+                                  </button>
+                              </span>
+                            </div>
+                        </div>
+
+                        <table border="1" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <td> ID</td>
+                                <td> 学号</td>
+                                <td> 邮箱</td>
+                                <td> 姓名</td>
+                                <td> 操作</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${classModel.userList.size()} eq 0">
+                                <td colspan="6">当前没有候选用户</td>
+                            </tr>
+                            <tr th:each="user,userStat : ${classModel.userList}">
+                                <td th:text="${user.id}"></td>
+                                <td th:text="${user.pid}"></td>
+                                <td th:text="${user.email}"></td>
+                                <td th:text="${user.username}"></td>
+                                <td>
+                                    <div>
+                                        <a class="class-add-user" data-th-attr="userId=${user.id}" role="button"
+                                           th:href="@{#}" th:if="${user.tmpField} eq 'True'">
+                                            <i aria-hidden="true" class="fa fa-check-circle"></i>
+                                        </a>
+                                        <a class="class-add-user" data-th-attr="userId=${user.id}" role="button"
+                                           th:href="@{'add'+${classModel.role}+'/'+${user.id}}" th:if="${user.tmpField} eq 'False'">
+                                            <i aria-hidden="true" class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+<!--                        <div th:replace="~{fragment/page :: page}">...</div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+<!--尾部信息-->
+<div th:replace="~{fragment/_footer :: footer}"></div>
+
+<!-- js placed at the end of the document so the pages load faster -->
+<script th:src="@{../../static/js/jquery.nicescroll.js}" type="text/javascript"></script>
+<!--common script for all pages-->
+<script th:src="@{../../static/js/common-scripts.js}" type="text/javascript"></script>
+
+</body>
+</html>
