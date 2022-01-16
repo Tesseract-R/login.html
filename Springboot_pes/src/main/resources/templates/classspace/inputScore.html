@@ -36,8 +36,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:if="${class.getTeachers().size()} eq 0">
-                                <td colspan="6">没有管理员信息！</td>
+                            <tr th:if="${class.getTeachers()} eq 0">
+                                <td colspan="6">没有用户信息！</td>
                             </tr>
                             <tr th:each="user : ${class.getTeachers()}">
                                 <td th:text="${user.username}"></td>
@@ -52,73 +52,74 @@
                     <!-- 右侧栏目 -->
                     <div class="card col-12" name="Score">
                         <div class="card-header" style="display: flex;align-items: center;justify-content: space-between;align-content: center;">
-                            <h6 class="col-3">成绩信息</h6>
-                            <a class="btn btn-small btn-outline-dark col-1" th:href="@{'/c/inputScore/'+${class.id}}">添加新成绩</a>
+                            <h6 class="col-3">添加新成绩</h6>
                         </div>
+
                         <div class="card-body">
-                            <table border="1" class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <td> 学号</td>
-                                    <td> 姓名</td>
-                                    <td> 成绩</td>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:if="${class.getStudents().size()} eq 0">
-                                    <td colspan="6">没有学生信息！</td>
-                                </tr>
-                                <tr th:each="user : ${class.getStudents()}">
-                                    <td th:text="${user.pid}"></td>
-                                    <td th:text="${user.username}"></td>
-                                    <td th:text="100"></td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <form th:action="@{${class.id}}" method="post" enctype="multipart/form-data" th:object="${classModel.exam}">
+                                <input type="hidden" th:name="id" th:value="*{id}">
+                                <table border="1" class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <td> 学号</td>
+                                        <td> 姓名</td>
+                                        <td> 成绩</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:if="${exam.scoreList.size()} eq 0">
+                                        <td colspan="6">没有学生信息！</td>
+                                    </tr>
+                                    <tr th:each="score,count: ${exam.getScoreList()}" name="scoreList">
+                                        <td th:text="${score.getStudent().getPid()}"></td>
+                                        <td th:text="${score.getStudent().getUsername()}"></td>
+                                        <td>
+                                            <input type="hidden" name="student" th:value="${score.getStudent()}">
+                                            <input id="score" name="score" th:value="${score.score}">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <button id="submit" type="submit" class="tm-btn-submit">提交</button>
+                            </form>
                         </div>
                     </div>
-                    <div class="card col-12" name="Fig">
-                        <div class="card-header" style="display: flex;align-items: center;justify-content: space-between;align-content: center;">
-                            <h6 class="col-3">图表</h6>
-                            <a class="btn btn-small btn-outline-dark col-1" th:href="@{#}">刷新图表</a>
-                        </div>
-
-                        <div class="card-block col-8" name="currEva">
-
-                        </div>
                 </div>
             </div>
         </div>
     </section>
 </section>
 
-<!-- /.container -->
 
-<!-- The modal -->
-<div aria-hidden="true" aria-labelledby="modalLabel" class="modal fade" id="flipFlop"
-     role="dialog" tabindex="-1">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modalLabel">编辑头像</h4>
-                <button aria-label="Close" class="close" data-dismiss="modal"
-                        type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-
-            </div>
-            <div class="modal-body" id="avatarFormContainer"></div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" data-dismiss="modal" id="submitEditAvatar">提交</button>
-                <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- JavaScript -->
-<script src="../../js/userspace/main.js" th:src="@{/js/userspace/main.js}"></script>
+<script>
+    function submit(){
+        var parms = {
+            list : [
+                {
+                    "id":1,
+                    "score":1
+                },{
+                    "id":2,
+                    "score":2
+                },{
+                    "id":3,
+                    "score":3
+                }] //这是个数组
+        };
+        $.ajax({
+            dataType: "JSON",
+            contentType:'application/json;charset=UTF-8',//关键是要加上这行
+            traditional:true,//这使json格式的字符不会被转码
+            data: JSON.stringify(parms),
+            type: "POST",
+            timeout: 20000,
+            url: "/c/inputScore/3",
+            error : function (data){
+                alert(data.responseText);
+            }
+        });
+    }
+</script>
 
 <!-- /.container -->
 <!-- js placed at the end of the document so the pages load faster -->

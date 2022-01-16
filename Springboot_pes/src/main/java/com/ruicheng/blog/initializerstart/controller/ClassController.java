@@ -73,7 +73,7 @@ public class ClassController {
     public ModelAndView view(@PathVariable("id") Long id, Model model) {
         Class c = classService.getClassById(id);
         Set<User> teachers = c.getTeachers();
-        Set<User> students = c.getStudents();
+        List<User> students = c.getStudents();
 
         model.addAttribute("class", c);
         model.addAttribute("title", "班级信息");
@@ -117,7 +117,7 @@ public class ClassController {
                 classService.saveClass(c);
             } else {
                 c.setTeachers(classService.getClassById(c.getId()).getTeachers());
-                c.setStudents(classService.getClassById(c.getId()).getStudents());
+                c.setStudents((Set<User>) classService.getClassById(c.getId()).getStudents());
                 c.setUserNum(c.getStudents().size() + c.getTeachers().size());
                 classService.saveClass(c);
             }
@@ -158,14 +158,14 @@ public class ClassController {
     public ModelAndView addStudent(@PathVariable("classid") Long id, @PathVariable("Role") String role, Model model) {
         Class c = classService.getClassById(id);
         String title;
-        Set<User> selectedList;
+        List<User> selectedList;
         if (role.equals("Student")){
             title = "添加学生";
             selectedList = c.getStudents();
         }
         else{
             title = "添加管理员";
-            selectedList = c.getTeachers();
+            selectedList = new ArrayList<>(c.getTeachers());
         }
         ArrayList<User> userList = (ArrayList<User>) userService.listUsers();
         for (User user: userList){

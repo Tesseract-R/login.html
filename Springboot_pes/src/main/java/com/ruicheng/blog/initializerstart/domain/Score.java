@@ -1,9 +1,6 @@
 package com.ruicheng.blog.initializerstart.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.List;
+import javax.persistence.*;
 
 /**
  * 成绩表
@@ -14,13 +11,36 @@ import java.util.List;
 @Entity
 public class Score {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增长策略
     private Long Id;
 
-    private Long studentId;
-    private Long score;
+    @OneToOne
+    private User student;
+
+    private double score;
+
+    public User getStudent() {
+        return student;
+    }
+
+    public void setStudent(User student) {
+        this.student = student;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public Score(User user){
+        this.score = 0.0;
+        this.student = user;
+    }
+
+    protected Score() {
+    }
 
     public Long getId() {
-        return Id;
+        return this.Id;
     }
 
     public void setId(Long id) {
@@ -28,14 +48,10 @@ public class Score {
     }
 
     public Long getStudentId() {
-        return studentId;
+        return Long.parseLong(student.getPid());
     }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
-
-    public Long getScore() {
+    public double getScore() {
         return score;
     }
 

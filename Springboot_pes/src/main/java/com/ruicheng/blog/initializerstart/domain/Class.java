@@ -4,9 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 课程实体
@@ -46,6 +44,11 @@ public class Class implements Serializable {
         return examList;
     }
 
+    public List<Exam> addExam(Exam exam){
+        examList.add(exam);
+        return this.examList;
+    }
+
     public void setExamList(List<Exam> examList) {
         this.examList = examList;
     }
@@ -72,6 +75,7 @@ public class Class implements Serializable {
         this.createTime = createTime;
         this.teachers = new HashSet<>();
         this.students = new HashSet<>();
+        this.examList = new ArrayList<>();
         this.userNum = 0;
     }
 
@@ -125,8 +129,15 @@ public class Class implements Serializable {
         this.creator = creator;
     }
 
-    public Set<User> getStudents() {
-        return students;
+    public List<User> getStudents() {
+        List<User> studentList = new ArrayList<>(this.students);
+        studentList.sort(new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return Integer.parseInt(o1.getPid()) - Integer.parseInt(o2.getPid());
+            }
+        });
+        return studentList;
     }
 
     public void setStudents(Set<User> students) {
