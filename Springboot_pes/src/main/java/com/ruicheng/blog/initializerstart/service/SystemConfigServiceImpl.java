@@ -16,17 +16,13 @@ public class SystemConfigServiceImpl {
     @Autowired
     SystemConfigRepository systemConfigRepository;
 
-    public SystemConfig getSystemConfig(){
+    public SystemConfig getSystemConfig() {
         return (SystemConfig) systemConfigRepository.findById(1).get();
     }
 
-    public void setSystemConfig(SystemConfig systemConfig){
+    public void setSystemConfig(SystemConfig systemConfig) {
         systemConfigRepository.save(systemConfig);
     }
-
-
-
-
 
 
 }

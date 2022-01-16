@@ -15,21 +15,39 @@ public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增长策略
     private Long Id;
-
     @NotEmpty
     private String createTime;
-
     @OneToMany
     private List<Score> scoreList;
 
-    protected Exam(){};
+    protected Exam() {
+    }
 
-    public Exam(String createTime, List<User> studentList){
+    public Exam(String createTime, List<User> studentList) {
         this.createTime = createTime;
         this.scoreList = new ArrayList<>();
-        for(User u: studentList){
+        for (User u : studentList) {
             this.scoreList.add(new Score(u));
         }
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    ;
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public double getScoreByPid(String pid) {
+        Long studentId = Long.parseLong(pid);
+        for (Score s : scoreList) {
+            if (s.getStudentId().equals(studentId))
+                return s.getScore();
+        }
+        return 0;
     }
 
     public Long getId() {

@@ -34,8 +34,10 @@
                                 <p><strong>班级信息: </strong><span th:text="${classModel.class.info}"></span></p>
                             </div>
                             <div class="btn-group col-3" style="align-items: stretch; flex-direction: column;">
-                                <a role="button" class="btn btn-small" data-target="#flipFlop" th:href="@{${classModel.class.id}+'/addAdmin'}">添加管理员</a>
-                                <a role="button" class="btn btn-small btn-dark" data-target="#flipFlop" th:href="@{${classModel.class.id}+'/addStudent'}">添加学生</a>
+                                <a class="btn btn-small" data-target="#flipFlop" role="button"
+                                   th:href="@{${classModel.class.id}+'/addAdmin'}">添加管理员</a>
+                                <a class="btn btn-small btn-dark" data-target="#flipFlop" role="button"
+                                   th:href="@{${classModel.class.id}+'/addStudent'}">添加学生</a>
                             </div>
                         </div>
 
@@ -67,7 +69,8 @@
                                                th:href="@{'/users/'+${teacher.id}}">
                                                 <i aria-hidden="true" class="fa fa-info-circle"></i></a>
                                             <a class="blog-delete-user" data-th-attr="userId=${teacher.id}"
-                                               role="button" th:href="@{'/classes/'+${classModel.class.id}+'/deleteAdmin/'+${teacher.id}}">
+                                               role="button"
+                                               th:href="@{'/classes/'+${classModel.class.id}+'/deleteAdmin/'+${teacher.id}}">
                                                 <i aria-hidden="true" class="fa fa-times"></i></a>
                                         </div>
                                     </td>
@@ -99,7 +102,8 @@
                                                th:href="@{'/classes/'+${classModel.class.id}+'/'+${student.id}}">
                                                 <i aria-hidden="true" class="fa fa-info-circle"></i></a>
                                             <a class="blog-delete-user" data-th-attr="userId=${student.id}"
-                                               role="button" th:href="@{'/classes/'+${classModel.class.id}+'/deleteStudent/'+${student.id}}">
+                                               role="button"
+                                               th:href="@{'/classes/'+${classModel.class.id}+'/deleteStudent/'+${student.id}}">
                                                 <i aria-hidden="true" class="fa fa-times"></i></a>
                                         </div>
                                     </td>

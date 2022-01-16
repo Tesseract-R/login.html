@@ -49,17 +49,7 @@ public class User implements UserDetails, Serializable {
 
     @Column(length = 200)
     private String avatar; // 头像图片地址
-
-    public String getTmpField() {
-        return tmpField;
-    }
-
-    public void setTmpField(String tmpField) {
-        this.tmpField = tmpField;
-    }
-
     private String tmpField;
-
     @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
@@ -68,14 +58,22 @@ public class User implements UserDetails, Serializable {
     protected User() {
     }
 
-    ;  // 防止直接使用
-
     public User(Long id, String pid, String username, String email, String password) {
         this.id = id;
         this.pid = pid;
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public String getTmpField() {
+        return tmpField;
+    }
+
+    ;  // 防止直接使用
+
+    public void setTmpField(String tmpField) {
+        this.tmpField = tmpField;
     }
 
     public Long getId() {

@@ -16,19 +16,19 @@
             <div class="no-gutter col-md-12 col-sm-12" style="padding: 0 0 0 0; display: flex; height: 700px">
                 <div class="row col-auto" style="padding: 5px; margin: 5px">
                     <!-- 左侧栏目 -->
-<!--                    <div class="col-md-4 col-xl-3">-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-md-12">-->
-<!--								<span>-->
-<!--								<a class="blog-edit-avatar" data-target="#flipFlop" data-th-attr="userName=${userModel.user.username}" data-toggle="modal"-->
-<!--                                   role="button">-->
-<!--									<img alt="null"-->
-<!--                                         class="blog-avatar blog-avatar-230" th:src="${userModel.user.avatar} ">-->
-<!--								</a>-->
-<!--								</span>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                    <div class="col-md-4 col-xl-3">-->
+                    <!--                        <div class="row">-->
+                    <!--                            <div class="col-md-12">-->
+                    <!--								<span>-->
+                    <!--								<a class="blog-edit-avatar" data-target="#flipFlop" data-th-attr="userName=${userModel.user.username}" data-toggle="modal"-->
+                    <!--                                   role="button">-->
+                    <!--									<img alt="null"-->
+                    <!--                                         class="blog-avatar blog-avatar-230" th:src="${userModel.user.avatar} ">-->
+                    <!--								</a>-->
+                    <!--								</span>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                     <div class="col-md-10 col-xl-10">
                         <!-- 个人设置 -->
                         <div class="card ">
@@ -69,8 +69,8 @@
                     <!-- /.row -->
                 </div>
 
-<!--                个人成绩信息与评价-->
-                <div class="row col-10" style="padding: 5px; margin: 5px" sec:authorize="hasRole('STUDENT')">
+                <!--                个人成绩信息与评价-->
+                <div class="row col-10" sec:authorize="hasRole('STUDENT')" style="padding: 5px; margin: 5px">
                     <!-- 右侧栏目 -->
                     <div class="card col-12" name="userScore">
                         <div class="card-header">成绩信息</div>

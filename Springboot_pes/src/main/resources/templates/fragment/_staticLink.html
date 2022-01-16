@@ -70,5 +70,24 @@
             color: rgba(0, 0, 0, 0);
         }
     </style>
+    <style>
+        #testTable thead {
+            overflow-y: scroll;
+            overflow-x: scroll;
+        }
+
+        #testTable tbody {
+            max-height: 600px;
+            max-width: 1000px;
+            overflow-y: scroll;
+            overflow-x: scroll;
+        }
+    </style>
+    <script>
+        $(function () {
+            //表格加载后,去除内容第一行的上边框
+            $("#testTable").find("tbody td").css("border-top", "none");
+        });
+    </script>
 </head>
 </html>

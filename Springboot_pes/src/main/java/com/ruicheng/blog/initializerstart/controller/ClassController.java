@@ -159,19 +159,18 @@ public class ClassController {
         Class c = classService.getClassById(id);
         String title;
         List<User> selectedList;
-        if (role.equals("Student")){
+        if (role.equals("Student")) {
             title = "添加学生";
             selectedList = c.getStudents();
-        }
-        else{
+        } else {
             title = "添加管理员";
             selectedList = new ArrayList<>(c.getTeachers());
         }
         ArrayList<User> userList = (ArrayList<User>) userService.listUsers();
-        for (User user: userList){
+        for (User user : userList) {
             user.setTmpField("False");
         }
-        for (User user: selectedList){
+        for (User user : selectedList) {
             user.setTmpField("True");
         }
         userService.saveAll(userList);
@@ -201,7 +200,7 @@ public class ClassController {
      * 班内增加用户
      */
     @GetMapping("/{classid}/add{role}/{id}")
-    public ModelAndView addUserToClass(@PathVariable("classid") Long classid, @PathVariable("role") String role,@PathVariable("id") Long userid){
+    public ModelAndView addUserToClass(@PathVariable("classid") Long classid, @PathVariable("role") String role, @PathVariable("id") Long userid) {
         Class currentClass = classService.getClassById(classid);
         User userToBeAdded = userService.getUserById(userid);
         if (role.equals("Admin"))
@@ -217,13 +216,13 @@ public class ClassController {
      * 班内删除用户
      */
     @GetMapping("/{classid}/delete{role}/{id}")
-    public ModelAndView removeUserFromClass(@PathVariable("classid") Long classid, @PathVariable("role") String role,@PathVariable("id") Long userid) {
+    public ModelAndView removeUserFromClass(@PathVariable("classid") Long classid, @PathVariable("role") String role, @PathVariable("id") Long userid) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) auth.getPrincipal();
         Class currentClass = classService.getClassById(classid);
         User userToBeRemoved = userService.getUserById(userid);
-        if (currentUser.getUsername().equals(currentClass.getCreator()) || !role.equals("admin")){
-            if (!userid.equals(currentUser.getId()) || !role.equals("admin")){
+        if (currentUser.getUsername().equals(currentClass.getCreator()) || !role.equals("admin")) {
+            if (!userid.equals(currentUser.getId()) || !role.equals("admin")) {
                 if (role.equals("Admin"))
                     currentClass.removeTeacher(userToBeRemoved);
                 else if (role.equals("Student"))
@@ -233,11 +232,6 @@ public class ClassController {
         classService.saveClass(currentClass);
         return new ModelAndView("redirect:/classes/{classid}");
     }
-
-
-
-
-
 
 
 }

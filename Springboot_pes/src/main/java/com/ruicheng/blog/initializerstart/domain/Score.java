@@ -19,24 +19,25 @@ public class Score {
 
     private double score;
 
+    public Score(User user) {
+        this.score = 0.0;
+        this.student = user;
+    }
+
+    public Score(User user, double score) {
+        this.score = score;
+        this.student = user;
+    }
+
+    protected Score() {
+    }
+
     public User getStudent() {
         return student;
     }
 
     public void setStudent(User student) {
         this.student = student;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
-    }
-
-    public Score(User user){
-        this.score = 0.0;
-        this.student = user;
-    }
-
-    protected Score() {
     }
 
     public Long getId() {
@@ -53,6 +54,10 @@ public class Score {
 
     public double getScore() {
         return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 
     public void setScore(Long score) {

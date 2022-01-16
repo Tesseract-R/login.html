@@ -32,7 +32,7 @@
                             <thead>
                             <tr>
                                 <td> 姓名</td>
-                                <td> 邮箱 </td>
+                                <td> 邮箱</td>
                             </tr>
                             </thead>
                             <tbody>
@@ -51,17 +51,18 @@
                 <div class="row col-9" style="padding: 5px; margin: 5px">
                     <!-- 右侧栏目 -->
                     <div class="card col-12" name="Score">
-                        <div class="card-header" style="display: flex;align-items: center;justify-content: space-between;align-content: center;">
+                        <div class="card-header"
+                             style="display: flex;align-items: center;justify-content: space-between;align-content: center;">
                             <h6 class="col-3">成绩信息</h6>
                             <a class="btn btn-small btn-outline-dark col-1" th:href="@{'/c/inputScore/'+${class.id}}">添加新成绩</a>
                         </div>
                         <div class="card-body">
-                            <table border="1" class="table table-striped">
+                            <table bgcolor="#f0ffff" border="1" class="table table-striped" id="testTable">
                                 <thead>
                                 <tr>
                                     <td> 学号</td>
                                     <td> 姓名</td>
-                                    <td> 成绩</td>
+                                    <td th:each="exam: ${class.getExamList()}" th:text="${exam.getCreateTime()}"></td>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -71,14 +72,16 @@
                                 <tr th:each="user : ${class.getStudents()}">
                                     <td th:text="${user.pid}"></td>
                                     <td th:text="${user.username}"></td>
-                                    <td th:text="100"></td>
+                                    <td contenteditable="true" th:each="exam: ${class.getExamList()}"
+                                        th:text="${exam.getScoreByPid(user.pid)}"></td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="card col-12" name="Fig">
-                        <div class="card-header" style="display: flex;align-items: center;justify-content: space-between;align-content: center;">
+                        <div class="card-header"
+                             style="display: flex;align-items: center;justify-content: space-between;align-content: center;">
                             <h6 class="col-3">图表</h6>
                             <a class="btn btn-small btn-outline-dark col-1" th:href="@{#}">刷新图表</a>
                         </div>
@@ -86,9 +89,9 @@
                         <div class="card-block col-8" name="currEva">
 
                         </div>
+                    </div>
                 </div>
             </div>
-        </div>
     </section>
 </section>
 

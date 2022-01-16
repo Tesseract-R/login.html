@@ -29,6 +29,7 @@ public interface ClassService {
     void removeUserFromClass(Class c, String role, User user);
 
     Boolean hasUserAsTeacher(Class c, User u);
+
     Boolean hasUserAsStudent(Class c, User u);
 
 }

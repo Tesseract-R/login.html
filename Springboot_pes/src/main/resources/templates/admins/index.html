@@ -19,7 +19,8 @@
                 <h5 class="card-header"><i aria-hidden="true" class="fa fa-bars"></i> 菜单</h5>
 
                 <ul class="list-group blog-menu" th:each="menu : ${model.list}">
-                    <a class="list-group-item " data-th-attr="url=${menu.url}" href="javascript:void(0)" th:text="${menu.name}"
+                    <a class="list-group-item " data-th-attr="url=${menu.url}" href="javascript:void(0)"
+                       th:text="${menu.name}"
                        th:title="${menu.name}">
                         用户管理
                     </a>

@@ -10,11 +10,12 @@ import org.springframework.stereotype.Service;
  * @date ：Created in 2022/1/16 18:26
  */
 @Service
-public class ScoreServiceImpl implements ScoreService{
+public class ScoreServiceImpl implements ScoreService {
     @Autowired
     ScoreRepository scoreRepository;
 
-    public void save(Score score){
+    @Override
+    public void save(Score score) {
         scoreRepository.save(score);
     }
 }

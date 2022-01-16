@@ -6,26 +6,27 @@
 </head>
 <body>
 
-    <table th:fragment="scoreTable" border="1" class="table table-striped">
-        <thead>
-        <tr>
-            <td> 学号 </td>
-            <td> 姓名 </td>
-            <td> 成绩1 </td>
-            <td> 成绩2 </td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${scoreModel.userList.size()} eq 0">
-            <td colspan="6">没有用户信息！</td>
-        </tr>
-        <tr th:each="user : ${scoreModel.userList}">
-            <td th:text="${user.pid}"></td>
-            <td th:text="${user.username}"></td>
-            <td </td>
-            <td> </td>
-        </tr>
-        </tbody>
-    </table>
+<table border="1" class="table table-striped" th:fragment="scoreTable">
+    <thead>
+    <tr>
+        <td> 学号</td>
+        <td> 姓名</td>
+        <td> 成绩1</td>
+        <td> 成绩2</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${scoreModel.userList.size()} eq 0">
+        <td colspan="6">没有用户信息！</td>
+    </tr>
+    <tr th:each="user : ${scoreModel.userList}">
+        <td th:text="${user.pid}"></td>
+        <td th:text="${user.username}"></td>
+        <td
+        </td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

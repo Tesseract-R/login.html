@@ -32,7 +32,7 @@
                             <thead>
                             <tr>
                                 <td> 姓名</td>
-                                <td> 邮箱 </td>
+                                <td> 邮箱</td>
                             </tr>
                             </thead>
                             <tbody>
@@ -51,13 +51,14 @@
                 <div class="row col-9" style="padding: 5px; margin: 5px">
                     <!-- 右侧栏目 -->
                     <div class="card col-12" name="Score">
-                        <div class="card-header" style="display: flex;align-items: center;justify-content: space-between;align-content: center;">
+                        <div class="card-header"
+                             style="display: flex;align-items: center;justify-content: space-between;align-content: center;">
                             <h6 class="col-3">添加新成绩</h6>
                         </div>
 
                         <div class="card-body">
-                            <form th:action="@{${class.id}}" method="post" enctype="multipart/form-data" th:object="${classModel.exam}">
-                                <input type="hidden" th:name="id" th:value="*{id}">
+                            <form th:action="@{'/c/submit/'+${class.id}}" th:object="${classModel.exam}">
+                                <!--                                <input type="hidden" th:name="id" th:value="*{id}">-->
                                 <table border="1" class="table table-striped">
                                     <thead>
                                     <tr>
@@ -70,17 +71,18 @@
                                     <tr th:if="${exam.scoreList.size()} eq 0">
                                         <td colspan="6">没有学生信息！</td>
                                     </tr>
-                                    <tr th:each="score,count: ${exam.getScoreList()}" name="scoreList">
+                                    <tr name="scoreList" th:each="score,count: ${exam.getScoreList()}">
                                         <td th:text="${score.getStudent().getPid()}"></td>
                                         <td th:text="${score.getStudent().getUsername()}"></td>
                                         <td>
-                                            <input type="hidden" name="student" th:value="${score.getStudent()}">
+                                            <input name="student" th:value="${score.getStudent().getId()}"
+                                                   type="hidden">
                                             <input id="score" name="score" th:value="${score.score}">
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
-                                <button id="submit" type="submit" class="tm-btn-submit">提交</button>
+                                <button class="tm-btn-submit" id="submit" type="submit">提交</button>
                             </form>
                         </div>
                     </div>
@@ -92,29 +94,29 @@
 
 
 <script>
-    function submit(){
+    function submit() {
         var parms = {
-            list : [
+            list: [
                 {
-                    "id":1,
-                    "score":1
-                },{
-                    "id":2,
-                    "score":2
-                },{
-                    "id":3,
-                    "score":3
+                    "id": 1,
+                    "score": 1
+                }, {
+                    "id": 2,
+                    "score": 2
+                }, {
+                    "id": 3,
+                    "score": 3
                 }] //这是个数组
         };
         $.ajax({
             dataType: "JSON",
-            contentType:'application/json;charset=UTF-8',//关键是要加上这行
-            traditional:true,//这使json格式的字符不会被转码
+            contentType: 'application/json;charset=UTF-8',//关键是要加上这行
+            traditional: true,//这使json格式的字符不会被转码
             data: JSON.stringify(parms),
             type: "POST",
             timeout: 20000,
             url: "/c/inputScore/3",
-            error : function (data){
+            error: function (data) {
                 alert(data.responseText);
             }
         });

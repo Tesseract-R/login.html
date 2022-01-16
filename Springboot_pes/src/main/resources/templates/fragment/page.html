@@ -82,7 +82,8 @@
 
 
         <!-- 当前页面小于等于4 -->
-        <li class="page-item" data-th-classappend="${(page.number + 1) eq i} ? 'active' : ''" data-th-each="i : ${#numbers.sequence(2,5)}"
+        <li class="page-item" data-th-classappend="${(page.number + 1) eq i} ? 'active' : ''"
+            data-th-each="i : ${#numbers.sequence(2,5)}"
             data-th-if="${(page.number + 1) le 4}">
             <a class="page-link tbpage-item" data-th-attr="pageIndex=${i} - 1" href="javascript:void(0);">
                 <span data-th-text="${i}"></span>

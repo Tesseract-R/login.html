@@ -10,11 +10,12 @@ import org.springframework.stereotype.Service;
  * @date ：Created in 2022/1/16 18:28
  */
 @Service
-public class ExamServiceImpl implements ExamService{
+public class ExamServiceImpl implements ExamService {
     @Autowired
     ExamRepository examRepository;
 
-    public void save(Exam exam){
+    @Override
+    public void save(Exam exam) {
         examRepository.save(exam);
     }
 }

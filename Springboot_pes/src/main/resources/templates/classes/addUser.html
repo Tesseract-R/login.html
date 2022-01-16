@@ -19,7 +19,8 @@
                 <div class="col-md-12" style="position: center">
                     <div class="text-center tm-hero-text-container">
                         <h3 style="color: black" th:text="${classModel.title}"></h3>
-                        <div class="col-6" style="display: flex; height: 30px"> <a th:href="@{'/classes/'+${classModel.c.id}}"> <- 回到班级信息页 </a></div>
+                        <div class="col-6" style="display: flex; height: 30px"><a
+                                th:href="@{'/classes/'+${classModel.c.id}}"> <- 回到班级信息页 </a></div>
                         <div class="card-header bg-light">
                             <div class="input-group col-md-7 col-xl-6" style="padding: 0 0 0 0">
                                 <input class="form-control" id="searchName" placeholder="输入用户名称进行搜索"
@@ -30,7 +31,7 @@
                                   <button class="btn btn-secondary" id="searchNameBtn" style="height: 40px"
                                           type="button">
                                       <div style="display: flex"><i aria-hidden="true" class="fa fa-search"
-                                              style="position: center"></i></div>
+                                                                    style="position: center"></i></div>
                                   </button>
                               </span>
                             </div>
@@ -62,7 +63,8 @@
                                             <i aria-hidden="true" class="fa fa-check-circle"></i>
                                         </a>
                                         <a class="class-add-user" data-th-attr="userId=${user.id}" role="button"
-                                           th:href="@{'add'+${classModel.role}+'/'+${user.id}}" th:if="${user.tmpField} eq 'False'">
+                                           th:href="@{'add'+${classModel.role}+'/'+${user.id}}"
+                                           th:if="${user.tmpField} eq 'False'">
                                             <i aria-hidden="true" class="fa fa-plus"></i>
                                         </a>
                                     </div>
@@ -71,7 +73,7 @@
                             </tbody>
                         </table>
 
-<!--                        <div th:replace="~{fragment/page :: page}">...</div>-->
+                        <!--                        <div th:replace="~{fragment/page :: page}">...</div>-->
                     </div>
                 </div>
             </div>

@@ -19,7 +19,6 @@ public class Authority implements GrantedAuthority {
     private Long id; // 用户的唯一标识
 
 
-
     @Column(nullable = false) // 映射为字段，值不能为空
     private String name;
 

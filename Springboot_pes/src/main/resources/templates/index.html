@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 </article>
-                <article class="box-shadow" style="height:400px" sec:authorize="not hasRole('ADMIN')">
+                <article class="box-shadow" sec:authorize="not hasRole('ADMIN')" style="height:400px">
                     <div class="no-gutter">
                         <div class="col-sm-12">
                             <div class="art-content text-center">
@@ -39,19 +39,20 @@
                             </div>
                         </div>
                     </div>
-                </article><article class="box-shadow" style="height:400px" sec:authorize="hasRole('ADMIN')">
-                <div class="no-gutter">
-                    <div class="col-sm-12">
-                        <div class="art-content text-center">
-                            <div class="heading">
-                                <h2>班级管理</h2>
-                                <hr class="line">
+                </article>
+                <article class="box-shadow" sec:authorize="hasRole('ADMIN')" style="height:400px">
+                    <div class="no-gutter">
+                        <div class="col-sm-12">
+                            <div class="art-content text-center">
+                                <div class="heading">
+                                    <h2>班级管理</h2>
+                                    <hr class="line">
+                                </div>
+                                <a href="/classes/"> → 进入 </a>
                             </div>
-                            <a href="/classes/"> → 进入 </a>
                         </div>
                     </div>
-                </div>
-            </article>
+                </article>
 
             </div>
             <div class="no-gutter col-md-6 col-sm-12" sec:authorize="hasRole('ADMIN')" style="padding: 3px">
@@ -68,19 +69,19 @@
                         </div>
                     </div>
                 </article>
-<!--                <article class="box-shadow" style="height:280px">-->
-<!--                    <div class="no-gutter">-->
-<!--                        <div class="col-sm-12">-->
-<!--                            <div class="art-content text-center">-->
-<!--                                <div class="heading">-->
-<!--                                    <h2>班级管理</h2>-->
-<!--                                    <hr class="line">-->
-<!--                                </div>-->
-<!--                                <a href="/classes/"> → 进入 </a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </article>-->
+                <!--                <article class="box-shadow" style="height:280px">-->
+                <!--                    <div class="no-gutter">-->
+                <!--                        <div class="col-sm-12">-->
+                <!--                            <div class="art-content text-center">-->
+                <!--                                <div class="heading">-->
+                <!--                                    <h2>班级管理</h2>-->
+                <!--                                    <hr class="line">-->
+                <!--                                </div>-->
+                <!--                                <a href="/classes/"> → 进入 </a>-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </article>-->
                 <article class="box-shadow" style="height:400px">
                     <div class="no-gutter">
                         <div class="col-sm-12">

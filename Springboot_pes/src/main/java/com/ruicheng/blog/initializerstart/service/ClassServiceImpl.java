@@ -9,9 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author ：Ruicheng
@@ -65,7 +63,7 @@ public class ClassServiceImpl implements ClassService {
 
     @Override
     public void removeUserFromClass(Class c, String role, User user) {
-        if (role.equals("Student")){
+        if (role.equals("Student")) {
             c.removeStudent(user);
         }
         if (role.equals("Admin")) {
@@ -76,16 +74,16 @@ public class ClassServiceImpl implements ClassService {
 
     @Override
     public Boolean hasUserAsTeacher(Class c, User u) {
-        for (User user: c.getTeachers()){
+        for (User user : c.getTeachers()) {
             if (user.getId().equals(u.getId()))
-                    return true;
+                return true;
         }
         return false;
     }
 
     @Override
     public Boolean hasUserAsStudent(Class c, User u) {
-        for (User user: c.getStudents()){
+        for (User user : c.getStudents()) {
             if (user.getId().equals(u.getId()))
                 return true;
         }

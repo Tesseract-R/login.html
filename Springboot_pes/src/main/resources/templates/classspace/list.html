@@ -21,21 +21,23 @@
 
                         <div class="card-header bg-light">
                             <div class="input-group col-md-7 col-xl-6" style="padding: 0 0 0 0">
-                                <input class="form-control" id="searchName" placeholder="输入班级名称进行搜索" style="margin-top: 0"
+                                <input class="form-control" id="searchName" placeholder="输入班级名称进行搜索"
+                                       style="margin-top: 0"
                                        type="text">
                                 <span class="input-group-btn"
                                       style="height: 40px; display: flex; vertical-align: middle">
                                   <button class="btn btn-secondary" id="searchNameBtn" style="height: 40px"
                                           type="button">
                                       <div style="display: flex"><i aria-hidden="true" class="fa fa-search"
-                                              style="position: center"></i></div>
+                                                                    style="position: center"></i></div>
                                   </button>
                               </span>
                                 <a th:href="@{'/classes/addClass'}">
                                   <span class="input-group-btn"
                                         style="height: 40px; display: flex; vertical-align: middle">
                                  <button class="btn btn-primary" id="addClassBtn" style="height: 40px" type="button">
-                                      <div style="display: flex"><i aria-hidden="true" class="fa fa-plus" style="position: center"></i></div>
+                                      <div style="display: flex"><i aria-hidden="true" class="fa fa-plus"
+                                                                    style="position: center"></i></div>
                                   </button>
                                 </span>
                                 </a>
@@ -67,13 +69,14 @@
                                     <div>
                                         <a class="blog-info-class" data-th-attr="classId=${class.id}" role="button"
                                            th:href="@{'/c/profile/'+${class.id}}"><i aria-hidden="true"
-                                                                                   class="fa fa fa-info-circle"></i></a>
+                                                                                     class="fa fa fa-info-circle"></i></a>
                                         <a class="blog-edit-class" data-th-attr="classId=${class.id}" role="button"
                                            th:href="@{'/classes/'+${class.id}}"><i aria-hidden="true"
-                                                                                 class="fa fa fa-pencil-square-o"></i></a>
+                                                                                   class="fa fa fa-pencil-square-o"></i></a>
                                         <a class="blog-delete-class" data-th-attr="classId=${class.id}"
-                                           role="button" th:href="@{'/classes/delete/'+${class.id}}"> <i aria-hidden="true"
-                                                                                                class="fa fa-times"></i></a>
+                                           role="button" th:href="@{'/classes/delete/'+${class.id}}"> <i
+                                                aria-hidden="true"
+                                                class="fa fa-times"></i></a>
                                     </div>
                                 </td>
                             </tr>

@@ -39,33 +39,15 @@ public class Class implements Serializable {
     @JoinTable(name = "class_s", joinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Set<User> students; // 选这门课的学生
-
-    public List<Exam> getExamList() {
-        return examList;
-    }
-
-    public List<Exam> addExam(Exam exam){
-        examList.add(exam);
-        return this.examList;
-    }
-
-    public void setExamList(List<Exam> examList) {
-        this.examList = examList;
-    }
-
     @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-    private List<Exam> examList;
-
+    private Set<Exam> examList;
     private int userNum;
-
     @Size(min = 2, max = 200)
     @Column(nullable = false, length = 20) // 映射为字段，值不能为空
     private String info;
 
     protected Class() {
     }
-
-    ;
 
     public Class(Long id, String classname, String creator, String createTime, String info) {
         this.id = id;
@@ -75,8 +57,30 @@ public class Class implements Serializable {
         this.createTime = createTime;
         this.teachers = new HashSet<>();
         this.students = new HashSet<>();
-        this.examList = new ArrayList<>();
+        this.examList = new HashSet<>();
         this.userNum = 0;
+    }
+
+    public List<Exam> getExamList() {
+        ArrayList<Exam> rtnList = new ArrayList<>(this.examList);
+        rtnList.sort(new Comparator<Exam>() {
+            @Override
+            public int compare(Exam o1, Exam o2) {
+                return (int) (o1.getId() - o2.getId());
+            }
+        });
+        return rtnList;
+    }
+
+    public void setExamList(Set<Exam> examList) {
+        this.examList = examList;
+    }
+
+    ;
+
+    public Set<Exam> addExam(Exam exam) {
+        examList.add(exam);
+        return this.examList;
     }
 
     public Long getId() {
@@ -107,15 +111,18 @@ public class Class implements Serializable {
         this.teachers.add(newTeacher);
         this.userNum += 1;
     }
+
     public void addStudent(User newStudent) {
         this.students.add(newStudent);
         this.userNum += 1;
     }
+
     public void removeStudent(User user) {
         this.students.removeIf(u -> user.getId().equals(u.getId()));
         this.userNum -= 1;
         System.out.println(this.students);
     }
+
     public void removeTeacher(User user) {
         this.teachers.removeIf(u -> user.getId().equals(u.getId()));
         this.userNum -= 1;
