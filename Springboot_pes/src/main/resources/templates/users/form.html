@@ -39,6 +39,13 @@
                                 <input name="password" required="true" th:value="*{password}" type="text"/>
                                 <br></p>
 
+                            <p>角色：<br>
+                                <select class="form-control form-control-chosen" data-placeholder="请选择" style="height: auto" id="authorities" name="authorityId">
+                                    <option value="1">管理员</option>
+                                    <option value="2">老师/助教</option>
+                                    <option value="3" selected="selected">学生</option>
+                                </select>
+
                             <input name="提交" type="submit">
                         </form>
                     </div>

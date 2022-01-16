@@ -73,4 +73,22 @@ public class ClassServiceImpl implements ClassService {
         }
         System.out.println("课程成员删除: " + user);
     }
+
+    @Override
+    public Boolean hasUserAsTeacher(Class c, User u) {
+        for (User user: c.getTeachers()){
+            if (user.getId().equals(u.getId()))
+                    return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean hasUserAsStudent(Class c, User u) {
+        for (User user: c.getStudents()){
+            if (user.getId().equals(u.getId()))
+                return true;
+        }
+        return false;
+    }
 }

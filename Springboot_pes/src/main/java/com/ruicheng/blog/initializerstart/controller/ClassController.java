@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,6 @@ import javax.validation.ConstraintViolationException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +31,7 @@ import java.util.Set;
  */
 @Controller
 @RequestMapping("/classes")
+@PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")  // 指定角色权限才能操作方法
 public class ClassController {
 
     @Autowired

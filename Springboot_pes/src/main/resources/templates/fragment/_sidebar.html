@@ -31,13 +31,24 @@
                         </li>
                     </ul>
                 </li>
+                <li sec:authorize="not hasRole('ADMIN')">
+                    <a href="#"><i class="fa fa-tags"></i>我的信息<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a th:href="@{'/u/'}">我的主页</a>
+                        </li>
+                        <li>
+                            <a th:href="@{'/c/'}">我的班级</a>
+                        </li>
+                    </ul>
+                </li>
                 <li>
                     <a href="#"><i class="fa fa-tags"></i>后台管理<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li>
+                        <li sec:authorize="hasRole('ADMIN')">
                             <a th:href="@{'/users/'}">用户管理</a>
                         </li>
-                        <li>
+                        <li sec:authorize="hasRole('ADMIN')">
                             <a th:href="@{'/classes/'}">班级管理</a>
                         </li>
                         <li>
@@ -56,17 +67,7 @@
                 <!--                    </ul>-->
                 <!--                </li>-->
 
-                <li>
-                    <a href="#"><i class="fa fa-tags"></i>我的信息<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a th:href="@{'/u/'}">我的主页</a>
-                        </li>
-                        <li>
-                            <a href="/updateMyPassword">修改我的密码</a>
-                        </li>
-                    </ul>
-                </li>
+
 
             </ul>
             <!-- sidebar menu end-->

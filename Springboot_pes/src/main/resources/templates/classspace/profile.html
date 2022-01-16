@@ -13,76 +13,35 @@
     <section class="wrapper">
         <!-- Carousel -->
         <div class="col-md-12" style="display: flex">
-            <div class="no-gutter col-md-12 col-sm-12" style="padding: 0 0 0 0; display: flex; height: 700px">
+            <div class="no-gutter col-md-12 col-sm-12" style="padding: 0 0 0 0; display: flex; height: 800px">
                 <div class="row col-3" style="padding: 5px; margin: 5px">
-                    <!-- 左侧栏目 -->
-                    <div class="col-md-4 col-xl-3">
-                        <div class="row">
-                            <div class="col-md-12">
-								<span>
-								<a class="blog-edit-avatar" data-target="#flipFlop" data-th-attr="userName=${userModel.user.username}" data-toggle="modal"
-                                   role="button">
-									<img alt="null"
-                                         class="blog-avatar blog-avatar-230" th:src="${userModel.user.avatar} == null ? 'https://avatars3.githubusercontent.com/u/3233966?v=3&s=460' : ${userModel.user.avatar} ">
-								</a>
-								</span>
-                            </div>
-                        </div>
+                    <div class="card col-12" name="userScore">
+                        <div class="card-header"><h6>班级信息</h6></div>
+                        <br>
+                        <span>班级人数：</span>
+                        <br>
+                        <span>班级信息：</span>
+                        <br>
+                        <span>创始者：</span>
+                        <br>
+                        <span>管理员：</span>
                     </div>
-                    <div class="col-md-8 col-xl-9">
-                        <!-- 个人设置 -->
-                        <div class="card ">
-                            <h5 class="card-header"><i aria-hidden="true" class="fa fa-cog"></i> 个人设置</h5>
-                            <div class="card-block">
-                                <form id="userForm" method="post" th:action="@{/u/admin/profile}"
-                                      th:object="${userModel.user}">
-                                    <input id="userId" name="id" th:value="*{id}" type="hidden">
-
-                                    <div class="form-group ">
-                                        <label class="col-form-label" for="username">账号</label>
-                                        <input class="form-control" id="username" name="username" readonly="readonly"
-                                               th:value="*{pid}" type="text">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label" for="email">邮箱</label>
-                                        <input class="form-control" id="email" maxlength="50" name="email"
-                                               placeholder="请输入邮箱" th:value="*{email}" type="email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label" for="name">姓名</label>
-                                        <input class="form-control" id="name" maxlength="20" name="name"
-                                               placeholder="请输入姓名，至少2个字符，至多20个" th:value="*{username}" type="text">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label" for="password">密码</label>
-                                        <input class="form-control" id="password" maxlength="30" name="password"
-                                               placeholder="请输入密码，至少3个字符，至多30个" th:value="*{password}" type="password">
-                                    </div>
-                                    <div class="form-group">
-                                        <button class="btn btn-primary" type="submit">保存</button>
-                                    </div>
-                                </form>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.row -->
                 </div>
+
                 <div class="row col-9" style="padding: 5px; margin: 5px">
                     <!-- 右侧栏目 -->
-                    <div class="card col-12" name="userScore">
-                        <div class="card-header">成绩信息</div>
+                    <div class="card col-12" name="Score">
+                        <div class="card-header" style="display: flex;align-items: center;justify-content: space-between;align-content: center;">
+                            <h6 class="col-3">成绩信息</h6>
+                            <button class="btn btn-small btn-toolbar col-2" type="button" th:href="@{/inputScore}">添加新成绩</button> </div>
                         <br>
                     </div>
 
-                    <div class="card col-12" name="userEva">
-                        <div class="card-header">评价信息</div>
+                    <div class="card col-12" name="Fig">
+                        <div class="card-header"><h6>图表</h6></div>
                         <br>
                         <div class="card-block col-8" name="currEva">
-                            当前
-                        </div>
-                        <div class="card-block col-8" name="prevEva">
-                            历史
+
                         </div>
                     </div>
 

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:include="~{fragment/_staticLink :: link}">
+    <div th:replace="~{fragment/_header :: header}"></div>
+</head>
+<body style="background-color:#F4F4F4">
+
+<aside th:replace="~{fragment/_sidebar :: sidebar}"></aside>
+
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper col-12" style="height: 800px">
+        <div class="container" id="mainContainer">
+            <div class="row" id="mainContainerRepleace">
+                <!-- Carousel -->
+                <div class="col-md-12" style="position: center">
+                    <div class="text-center tm-hero-text-container">
+                        <h3 style="color: black" th:text="${classModel.title}"></h3>
+
+                        <div class="card-header bg-light">
+                            <div class="input-group col-md-7 col-xl-6" style="padding: 0 0 0 0">
+                                <input class="form-control" id="searchName" placeholder="输入班级名称进行搜索" style="margin-top: 0"
+                                       type="text">
+                                <span class="input-group-btn"
+                                      style="height: 40px; display: flex; vertical-align: middle">
+                                  <button class="btn btn-secondary" id="searchNameBtn" style="height: 40px"
+                                          type="button">
+                                      <div style="display: flex"><i aria-hidden="true" class="fa fa-search"
+                                              style="position: center"></i></div>
+                                  </button>
+                              </span>
+                                <a th:href="@{'/classes/addClass'}">
+                                  <span class="input-group-btn"
+                                        style="height: 40px; display: flex; vertical-align: middle">
+                                 <button class="btn btn-primary" id="addClassBtn" style="height: 40px" type="button">
+                                      <div style="display: flex"><i aria-hidden="true" class="fa fa-plus" style="position: center"></i></div>
+                                  </button>
+                                </span>
+                                </a>
+                            </div>
+                        </div>
+                        <h3> 我管理的班级 </h3>
+                        <table border="1" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <td> ID</td>
+                                <td> 班名</td>
+                                <td> 创始者</td>
+                                <td> 创建时间</td>
+                                <td> 班级人数</td>
+                                <td> 操作</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${classModel.classListA.size()} eq 0">
+                                <td colspan="6">没有班级信息！</td>
+                            </tr>
+                            <tr th:each="class : ${classModel.classListA}">
+                                <td th:text="${class.id}"></td>
+                                <td th:text="${class.classname}"></td>
+                                <td th:text="${class.creator}"></td>
+                                <td th:text="${class.createTime}"></td>
+                                <td th:text="${class.userNum}"></td>
+                                <td>
+                                    <div>
+                                        <a class="blog-info-class" data-th-attr="classId=${class.id}" role="button"
+                                           th:href="@{'/c/profile/'+${class.id}}"><i aria-hidden="true"
+                                                                                   class="fa fa fa-info-circle"></i></a>
+                                        <a class="blog-edit-class" data-th-attr="classId=${class.id}" role="button"
+                                           th:href="@{'/classes/'+${class.id}}"><i aria-hidden="true"
+                                                                                 class="fa fa fa-pencil-square-o"></i></a>
+                                        <a class="blog-delete-class" data-th-attr="classId=${class.id}"
+                                           role="button" th:href="@{'/classes/delete/'+${class.id}}"> <i aria-hidden="true"
+                                                                                                class="fa fa-times"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <h3> 我加入的班级 </h3>
+                        <table border="1" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <td> ID</td>
+                                <td> 班名</td>
+                                <td> 创始者</td>
+                                <td> 创建时间</td>
+                                <td> 班级人数</td>
+                                <td> 操作</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${classModel.classListS.size()} eq 0">
+                                <td colspan="6">没有班级信息！</td>
+                            </tr>
+                            <tr th:each="class : ${classModel.classListS}">
+                                <td th:text="${class.id}"></td>
+                                <td th:text="${class.classname}"></td>
+                                <td th:text="${class.creator}"></td>
+                                <td th:text="${class.createTime}"></td>
+                                <td th:text="${class.userNum}"></td>
+                                <td>
+                                    <div>
+                                        <a class="blog-info-class" data-th-attr="classId=${class.id}" role="button"
+                                           th:href="@{'/classes/'+${class.id}}"><i aria-hidden="true"
+                                                                                   class="fa fa-info-circle"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+<!--尾部信息-->
+<div th:replace="~{fragment/_footer :: footer}"></div>
+
+<!-- js placed at the end of the document so the pages load faster -->
+<script th:src="@{../../static/js/jquery.nicescroll.js}"></script>
+<!--common script for all pages-->
+<script th:src="@{../../static/js/common-scripts.js}"></script>
+
+</body>
+</html>

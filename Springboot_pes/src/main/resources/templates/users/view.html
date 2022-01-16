@@ -28,6 +28,7 @@
                             <p><strong>学号: </strong><span th:text="${userModel.user.pid}"></span></p>
                             <p><strong>姓名: </strong><span th:text="${userModel.user.username}"></span></p>
                             <p><strong>邮箱: </strong><span th:text="${userModel.user.email}"></span></p>
+                            <p><strong>权限: </strong><span th:text="${userModel.auth}"></span></p>
                             <p sec:authorize="hasRole('ADMIN')"><strong>密码: </strong><span th:text="${userModel.user.password}"></span></p>
                         </div>
 

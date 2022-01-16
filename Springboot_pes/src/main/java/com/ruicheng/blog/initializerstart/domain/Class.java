@@ -5,6 +5,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -40,6 +41,17 @@ public class Class implements Serializable {
     @JoinTable(name = "class_s", joinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Set<User> students; // 选这门课的学生
+
+    public List<Exam> getExamList() {
+        return examList;
+    }
+
+    public void setExamList(List<Exam> examList) {
+        this.examList = examList;
+    }
+
+    @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    private List<Exam> examList;
 
     private int userNum;
 

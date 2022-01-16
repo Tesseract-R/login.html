@@ -46,9 +46,10 @@ public class UserspaceController {
 //	}
 
     @GetMapping("/{id}/profile")
-    @PreAuthorize("authentication.name.equals(#id) or hasRole('ADMIN')")
+//    @PreAuthorize("authentication.id.equals(#id) or hasRole('ADMIN')")
     public ModelAndView profile(@PathVariable("id") Long id, Model model) {
-        User user = (User) userService.getUserById(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
         model.addAttribute("user", user);
         return new ModelAndView("/userspace/profile", "userModel", model);
     }
@@ -57,12 +58,12 @@ public class UserspaceController {
      * 保存个人设置
      *
      * @param user
-     * @param username
+     * @param id
      * @return
      */
-    @PostMapping("/{username}/profile")
-    @PreAuthorize("authentication.name.equals(#username)")
-    public String saveProfile(@PathVariable("username") String username, User user) {
+    @PostMapping("/{id}/profile")
+    @PreAuthorize("authentication.id.equals(#id)")
+    public String saveProfile(@PathVariable("id") Long id, User user) {
         User originalUser = userService.getUserById(user.getId());
         originalUser.setEmail(user.getEmail());
         originalUser.setUsername(user.getUsername());
@@ -77,7 +78,7 @@ public class UserspaceController {
         }
 
         userService.saveUser(originalUser);
-        return "redirect:/u/" + username + "/profile";
+        return "redirect:/u/" + id + "/profile";
     }
 
     /**

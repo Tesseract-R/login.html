@@ -18,6 +18,8 @@ public class Authority implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增长策略
     private Long id; // 用户的唯一标识
 
+
+
     @Column(nullable = false) // 映射为字段，值不能为空
     private String name;
 
@@ -39,7 +41,19 @@ public class Authority implements GrantedAuthority {
         return name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Authority{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

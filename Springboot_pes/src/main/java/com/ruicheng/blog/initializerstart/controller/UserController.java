@@ -1,5 +1,6 @@
 package com.ruicheng.blog.initializerstart.controller;
 
+import com.ruicheng.blog.initializerstart.domain.Authority;
 import com.ruicheng.blog.initializerstart.domain.User;
 import com.ruicheng.blog.initializerstart.service.AuthorityService;
 import com.ruicheng.blog.initializerstart.service.UserService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +31,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/users")
-@PreAuthorize("hasAuthority('ROLE_ADMIN')")  // 指定角色权限才能操作方法
+@PreAuthorize("hasRole('ADMIN')")  // 指定角色权限才能操作方法
 public class UserController {
     @Autowired
     private UserService userService;
@@ -71,7 +73,9 @@ public class UserController {
     @GetMapping("{id}")
     public ModelAndView view(@PathVariable("id") Long id, Model model) {
         User user = userService.getUserById(id);
+        String authority = user.getAuthorities().toString();
         model.addAttribute("user", user);
+        model.addAttribute("auth", authority);
         model.addAttribute("title", "用户信息");
         return new ModelAndView("users/view", "userModel", model);
     }
@@ -97,9 +101,9 @@ public class UserController {
      */
     @PostMapping
     public ModelAndView saveOrUpdateUser(User user, Long authorityId) {
-//        List<Authority> authorities = new ArrayList<>();
-//        authorities.add(authorityService.getAuthorityById(authorityId));
-//        user.setAuthorities(authorities);
+        List<Authority> authorities = new ArrayList<>();
+        authorities.add(authorityService.getAuthorityById(authorityId));
+        user.setAuthorities(authorities);
 
         if (user.getId() == null) {
             user.setEncodePassword(user.getPassword()); // 加密密码
@@ -207,6 +211,10 @@ public class UserController {
         return new ModelAndView("redirect:/users");
     }
 
+
+
+
+
     /**
      * 获取修改用户的界面，及数据
      *
@@ -222,6 +230,7 @@ public class UserController {
 
     @GetMapping("/add")
     public ModelAndView addForm(Model model) {
+        System.out.println("==== add ====");
         model.addAttribute("user", new User(null, null, null, null, null));
         return new ModelAndView("users/add", "userModel", model);
     }

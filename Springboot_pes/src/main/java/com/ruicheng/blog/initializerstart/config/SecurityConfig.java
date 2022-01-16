@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**", "/js/**", "/fonts/**", "/index").permitAll()
                 .antMatchers("/h2-console/**").permitAll() // 都可以访问
                 .antMatchers("/users/**").hasRole("ADMIN")
-                .antMatchers("/classes/**").access("hasRole('ADMIN') or hasRole('Teacher')")
+                .antMatchers("/classes/**").hasAnyRole("ADMIN", "TEACHER")
                 .antMatchers("/u/**").authenticated()
                 .antMatchers("/c/**").authenticated()
                 .and()
