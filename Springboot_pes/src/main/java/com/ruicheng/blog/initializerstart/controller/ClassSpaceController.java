@@ -1,14 +1,9 @@
 package com.ruicheng.blog.initializerstart.controller;
 
 
+import com.ruicheng.blog.initializerstart.domain.*;
 import com.ruicheng.blog.initializerstart.domain.Class;
-import com.ruicheng.blog.initializerstart.domain.Exam;
-import com.ruicheng.blog.initializerstart.domain.Score;
-import com.ruicheng.blog.initializerstart.domain.User;
-import com.ruicheng.blog.initializerstart.service.ClassService;
-import com.ruicheng.blog.initializerstart.service.ExamService;
-import com.ruicheng.blog.initializerstart.service.ScoreService;
-import com.ruicheng.blog.initializerstart.service.UserService;
+import com.ruicheng.blog.initializerstart.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -50,6 +46,9 @@ public class ClassSpaceController {
 
     @Autowired
     private ScoreService scoreService;
+
+    @Autowired
+    EchartService echartService;
 
     @GetMapping
     public ModelAndView listClassSpace(Model model) {
@@ -85,7 +84,7 @@ public class ClassSpaceController {
     public ModelAndView getInputScore(@PathVariable("id") Long classId, Model model) {
         Class c = classService.getClassById(classId);
         String currentTime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Timestamp(System.currentTimeMillis()));
-        Exam exam = new Exam(currentTime, c.getStudents());
+        Exam exam = new Exam(c.getId(), currentTime, c.getStudents());
         model.addAttribute("class", c);
         model.addAttribute("exam", exam);
         return new ModelAndView("classspace/inputScore", "classModel", model);
@@ -122,7 +121,7 @@ public class ClassSpaceController {
 
         Class c = classService.getClassById(classId);
         String currentTime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Timestamp(System.currentTimeMillis()));
-        Exam exam = new Exam(currentTime, c.getStudents());
+        Exam exam = new Exam(c.getId(), currentTime, c.getStudents());
         exam.setScoreList(scoreList);
         examService.save(exam);
         c.setExamList(c.addExam(exam));
@@ -131,5 +130,8 @@ public class ClassSpaceController {
         return new ModelAndView("redirect:/c/profile/" + classId);
     }
 
-
+    @RequestMapping(value="/courseClickCount",method = RequestMethod.POST)
+    public List<Echarts> courseClickCountStat(){
+        return echartService.getdemo();//跟templates文件夹下的demo.html名字一样，返回这个界面
+    }
 }

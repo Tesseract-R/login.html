@@ -1,5 +1,7 @@
 package com.ruicheng.blog.initializerstart.domain;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.context.annotation.Scope;
 
 import javax.persistence.Entity;
@@ -11,6 +13,8 @@ import javax.persistence.Id;
  * @author ：Ruicheng
  * @date ：Created in 2022/1/15 18:01
  */
+@Getter
+@Setter
 @Entity
 @Scope("Singleton")
 public class SystemConfig {
@@ -26,41 +30,5 @@ public class SystemConfig {
         this.reportSendReportDate = 7;
         this.warningSendReportDate = 7;
         this.warningSendReportRate = 10;
-    }
-
-    public static SystemConfig getSystemConfig() {
-        return systemConfig;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getReportSendReportDate() {
-        return reportSendReportDate;
-    }
-
-    public void setReportSendReportDate(int reportSendReportDate) {
-        this.reportSendReportDate = reportSendReportDate;
-    }
-
-    public int getWarningSendReportDate() {
-        return warningSendReportDate;
-    }
-
-    public void setWarningSendReportDate(int warningSendReportDate) {
-        this.warningSendReportDate = warningSendReportDate;
-    }
-
-    public int getWarningSendReportRate() {
-        return warningSendReportRate;
-    }
-
-    public void setWarningSendReportRate(int warningSendReportRate) {
-        this.warningSendReportRate = warningSendReportRate;
     }
 }

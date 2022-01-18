@@ -1,5 +1,7 @@
 package com.ruicheng.blog.initializerstart.domain;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +23,8 @@ import java.util.List;
  * @author ：Ruicheng
  * @date ：Created in 2021/11/12 10:51
  */
+@Getter
+@Setter
 @Entity // persistence 持久化
 public class User implements UserDetails, Serializable {
     @Id // 主键
@@ -55,8 +59,7 @@ public class User implements UserDetails, Serializable {
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
 
-    protected User() {
-    }
+    protected User() {};
 
     public User(Long id, String pid, String username, String email, String password) {
         this.id = id;
@@ -64,48 +67,6 @@ public class User implements UserDetails, Serializable {
         this.username = username;
         this.email = email;
         this.password = password;
-    }
-
-    public String getTmpField() {
-        return tmpField;
-    }
-
-    ;  // 防止直接使用
-
-    public void setTmpField(String tmpField) {
-        this.tmpField = tmpField;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getPid() {
-        return this.pid;
-    }
-
-    public void setPid(String pid) {
-        this.pid = pid;
-    }
-
-    public String getUsername() {
-        return this.username;
-    }
-
-    public void setUsername(String name) {
-        this.username = name;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
 
@@ -119,30 +80,19 @@ public class User implements UserDetails, Serializable {
         return simpleAuthorities;
     }
 
-    public void setAuthorities(List<Authority> authorities) {
-        this.authorities = authorities;
-    }
-
     @Override
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public String getUsername() {
+        return username;
     }
 
     public void setEncodePassword(String password) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         this.password = encoder.encode(password);
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     @Override

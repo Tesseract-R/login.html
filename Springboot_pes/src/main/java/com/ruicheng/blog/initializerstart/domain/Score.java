@@ -1,5 +1,8 @@
 package com.ruicheng.blog.initializerstart.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 /**
@@ -8,6 +11,8 @@ import javax.persistence.*;
  * @author ：Ruicheng
  * @date ：Created in 2022/1/16 15:37
  */
+@Getter
+@Setter
 @Entity
 public class Score {
     @Id
@@ -32,35 +37,13 @@ public class Score {
     protected Score() {
     }
 
-    public User getStudent() {
-        return student;
-    }
-
-    public void setStudent(User student) {
-        this.student = student;
-    }
-
-    public Long getId() {
-        return this.Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
-    }
-
     public Long getStudentId() {
         return Long.parseLong(student.getPid());
     }
 
-    public double getScore() {
-        return score;
+    public String getStudentPid(){
+        return this.student.getPid();
     }
 
-    public void setScore(double score) {
-        this.score = score;
-    }
 
-    public void setScore(Long score) {
-        this.score = score;
-    }
 }

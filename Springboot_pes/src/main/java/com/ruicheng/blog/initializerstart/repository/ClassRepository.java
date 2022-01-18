@@ -4,6 +4,7 @@ import com.ruicheng.blog.initializerstart.domain.Class;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
  * @author ：Ruicheng
  * @date ：Created in 2022/1/13 21:16
  */
+@Repository
 public interface ClassRepository extends JpaRepository<Class, Long> {
 
     default Class findOneById(Long id) {

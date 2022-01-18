@@ -1,6 +1,11 @@
 package com.ruicheng.blog.initializerstart.controller;
 
+import com.ruicheng.blog.initializerstart.domain.Exam;
+import com.ruicheng.blog.initializerstart.domain.Score;
 import com.ruicheng.blog.initializerstart.domain.User;
+import com.ruicheng.blog.initializerstart.domain.Class;
+import com.ruicheng.blog.initializerstart.service.ClassService;
+import com.ruicheng.blog.initializerstart.service.ExamService;
 import com.ruicheng.blog.initializerstart.service.UserService;
 import com.ruicheng.blog.initializerstart.vo.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +21,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 
 /**
  * 用户主页空间控制器.
@@ -30,6 +40,12 @@ public class UserspaceController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ClassService classService;
+
+    @Autowired
+    private ExamService examService;
 
     @GetMapping
     public String redirectUserSpace() {
@@ -51,6 +67,19 @@ public class UserspaceController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
         model.addAttribute("user", user);
+
+        HashMap<Class, List<Double>> scoreMap = new HashMap<>();
+        for (Class c: classService.listClasses()){
+            if (classService.hasUserAsStudent(c,user)){
+                List<Exam> exam = c.getExamList();
+                List<Double> tmpList = new ArrayList<>();
+                for (Exam e: exam){
+                    tmpList.add(e.getScoreByPid(user.getPid()));
+                }
+                scoreMap.put(c,tmpList);
+            }
+        }
+        model.addAttribute("classScorelistMap", scoreMap);
         return new ModelAndView("/userspace/profile", "userModel", model);
     }
 
@@ -153,6 +182,6 @@ public class UserspaceController {
     @GetMapping("/{username}/blogs/edit")
     public String editBlog() {
 
-        return "/blogedit";
+        return "echart";
     }
 }

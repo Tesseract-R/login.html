@@ -8,4 +8,5 @@ import com.ruicheng.blog.initializerstart.domain.Exam;
  */
 public interface ExamService {
     void save(Exam exam);
+//    public List<Exam> getExamByClassId(Long classId);
 }

@@ -20,11 +20,21 @@ public class Exam {
     @OneToMany
     private List<Score> scoreList;
 
-    protected Exam() {
+    public Long getClassId() {
+        return classId;
     }
 
-    public Exam(String createTime, List<User> studentList) {
+    public void setClassId(Long classId) {
+        this.classId = classId;
+    }
+
+    private Long classId; // 哪个班考的试
+
+    protected Exam() {};
+
+    public Exam(Long classId, String createTime, List<User> studentList) {
         this.createTime = createTime;
+        this.classId = classId;
         this.scoreList = new ArrayList<>();
         for (User u : studentList) {
             this.scoreList.add(new Score(u));
@@ -35,16 +45,14 @@ public class Exam {
         return createTime;
     }
 
-    ;
-
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
     public double getScoreByPid(String pid) {
-        Long studentId = Long.parseLong(pid);
-        for (Score s : scoreList) {
-            if (s.getStudentId().equals(studentId))
+        for (Score s : this.scoreList) {
+            System.out.println(s.toString());
+            if (s.getStudentPid().equals(pid))
                 return s.getScore();
         }
         return 0;

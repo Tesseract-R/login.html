@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:include="~{fragment/_staticLink :: link}">
+    <div th:replace="~{fragment/_header :: header}"></div>
+</head>
+<body style="background-color:#F4F4F4">
+
+<aside th:replace="~{fragment/_sidebar :: sidebar}"></aside>
+
+
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper col-12" style="height: auto">
+        <div class="container" id="mainContainer">
+            <div class="row" id="mainContainerRepleace">
+                <!-- Carousel -->
+                <div class="col-md-12" style="position: center">
+                    <div class="text-center tm-hero-text-container">
+                        <h3 th:text="${boardModel.title}"></h3>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+
+<!--尾部信息-->
+<!--<div th:replace="~{fragment/_footer :: footer}"></div>-->
+
+
+<!-- js placed at the end of the document so the pages load faster -->
+<script th:src="@{../../static/js/jquery.nicescroll.js}"></script>
+<!--common script for all pages-->
+<script th:src="@{../../static/js/common-scripts.js}"></script>
+
+</body>
+</html>

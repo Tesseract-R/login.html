@@ -1,5 +1,6 @@
 package com.ruicheng.blog.initializerstart.service;
 
+import com.ruicheng.blog.initializerstart.domain.Score;
 import com.ruicheng.blog.initializerstart.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -72,4 +73,5 @@ public interface UserService {
 
 
     boolean verifyUser(User user);
+
 }

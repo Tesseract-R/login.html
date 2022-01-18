@@ -1,5 +1,6 @@
 package com.ruicheng.blog.initializerstart.service;
 
+import com.ruicheng.blog.initializerstart.domain.Score;
 import com.ruicheng.blog.initializerstart.domain.User;
 import com.ruicheng.blog.initializerstart.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         return false;
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

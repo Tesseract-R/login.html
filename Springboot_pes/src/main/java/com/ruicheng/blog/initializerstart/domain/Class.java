@@ -39,9 +39,23 @@ public class Class implements Serializable {
     @JoinTable(name = "class_s", joinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Set<User> students; // 选这门课的学生
+
     @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     private Set<Exam> examList;
+
+    @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    private List<Evaluation> evaluationList;
+
+    public List<Evaluation> getEvaluationList() {
+        return evaluationList;
+    }
+
+    public void setEvaluationList(List<Evaluation> evaluationList) {
+        this.evaluationList = evaluationList;
+    }
+
     private int userNum;
+
     @Size(min = 2, max = 200)
     @Column(nullable = false, length = 20) // 映射为字段，值不能为空
     private String info;
@@ -75,8 +89,6 @@ public class Class implements Serializable {
     public void setExamList(Set<Exam> examList) {
         this.examList = examList;
     }
-
-    ;
 
     public Set<Exam> addExam(Exam exam) {
         examList.add(exam);

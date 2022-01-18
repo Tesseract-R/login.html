@@ -62,7 +62,6 @@
                                         <button class="btn btn-primary" type="submit">保存</button>
                                     </div>
                                 </form>
-
                             </div>
                         </div>
                     </div>
@@ -75,6 +74,22 @@
                     <div class="card col-12" name="userScore">
                         <div class="card-header">成绩信息</div>
                         <br>
+                        <div class="card-body">
+                            <table border="1" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <td>班级名称</td>
+                                        <td>成绩</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="class: ${userModel.classScorelistMap.keySet()}">
+                                        <td th:text="${class.classname}"></td>
+                                        <td th:each="score: ${userModel.classScorelistMap.get(class)}" th:text="${score}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="card col-12" name="userEva">
