@@ -57,7 +57,7 @@
                             <a class="btn btn-small btn-outline-dark col-1" th:href="@{'/c/inputScore/'+${class.id}}">添加新成绩</a>
                         </div>
                         <div class="card-body">
-                            <table bgcolor="#f0ffff" border="1" class="table table-striped" id="testTable">
+                            <table bgcolor="#f0ffff" border="1" class="col-12 table table-striped" id="testTable">
                                 <thead>
                                 <tr>
                                     <td> 学号</td>
@@ -70,8 +70,14 @@
                                     <td colspan="6">没有学生信息！</td>
                                 </tr>
                                 <tr th:each="user : ${class.getStudents()}">
-                                    <td th:text="${user.pid}"></td>
-                                    <td th:text="${user.username}"></td>
+                                    <td class="col-1" th:text="${user.pid}"></td>
+                                    <td class="col-3" style="border-top:none;display: table-cell;">
+                                        <a class="col-1" th:text="${user.username}"></a>
+                                        <a th:if="${user.tmpField} eq 'True'" class="col-1 btn" style="display: contents; font-size: 12px;" role="button" th:href="@{#}">已关注<i class="fa fa-check"></i></a>
+                                        <a th:if="${user.tmpField} eq 'False'" th:href="@{'/c/attention/'+${class.id}+'/'+${user.id}}" role="button" class="col-1 btn btn-outline-light" style="display: contents; font-size: 12px;">
+                                            特别关注<i class="fa fa-bell-o"></i>
+                                        </a>
+                                    </td>
                                     <td contenteditable="true" th:each="exam: ${class.getExamList()}"
                                         th:text="${exam.getScoreByPid(user.pid)}"></td>
                                 </tr>

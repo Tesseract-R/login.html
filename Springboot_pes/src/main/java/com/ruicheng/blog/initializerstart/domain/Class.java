@@ -1,5 +1,8 @@
 package com.ruicheng.blog.initializerstart.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -12,6 +15,8 @@ import java.util.*;
  * @author ：Ruicheng
  * @date ：Created in 2022/1/13 20:41
  */
+@Getter
+@Setter
 @Entity
 public class Class implements Serializable {
     @Id // 主键
@@ -40,19 +45,14 @@ public class Class implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Set<User> students; // 选这门课的学生
 
+    @ManyToMany
+    private Set<User> attentionList;
+
     @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     private Set<Exam> examList;
 
     @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-    private List<Evaluation> evaluationList;
-
-    public List<Evaluation> getEvaluationList() {
-        return evaluationList;
-    }
-
-    public void setEvaluationList(List<Evaluation> evaluationList) {
-        this.evaluationList = evaluationList;
-    }
+    private Set<Evaluation> evaluationList;
 
     private int userNum;
 
@@ -86,37 +86,9 @@ public class Class implements Serializable {
         return rtnList;
     }
 
-    public void setExamList(Set<Exam> examList) {
-        this.examList = examList;
-    }
-
     public Set<Exam> addExam(Exam exam) {
         examList.add(exam);
         return this.examList;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getClassname() {
-        return classname;
-    }
-
-    public void setClassname(String classname) {
-        this.classname = classname;
-    }
-
-    public Set<User> getTeachers() {
-        return teachers;
-    }
-
-    public void setTeachers(Set<User> teachers) {
-        this.teachers = teachers;
     }
 
     public void addTeacher(User newTeacher) {
@@ -140,14 +112,6 @@ public class Class implements Serializable {
         this.userNum -= 1;
     }
 
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
     public List<User> getStudents() {
         List<User> studentList = new ArrayList<>(this.students);
         studentList.sort(new Comparator<User>() {
@@ -157,30 +121,6 @@ public class Class implements Serializable {
             }
         });
         return studentList;
-    }
-
-    public void setStudents(Set<User> students) {
-        this.students = students;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public int getUserNum() {
-        return userNum;
-    }
-
-    public void setUserNum(int userNum) {
-        this.userNum = userNum;
     }
 
 }

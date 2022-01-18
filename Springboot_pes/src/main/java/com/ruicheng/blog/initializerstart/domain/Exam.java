@@ -1,5 +1,8 @@
 package com.ruicheng.blog.initializerstart.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
@@ -10,6 +13,8 @@ import java.util.List;
  * @author ：Ruicheng
  * @date ：Created in 2022/1/16 15:54
  */
+@Getter
+@Setter
 @Entity
 public class Exam {
     @Id
@@ -20,50 +25,27 @@ public class Exam {
     @OneToMany
     private List<Score> scoreList;
 
-    public Long getClassId() {
-        return classId;
-    }
-
-    public void setClassId(Long classId) {
-        this.classId = classId;
-    }
-
-    private Long classId; // 哪个班考的试
+    @OneToOne
+    private Class c; // 哪个班考的试
 
     protected Exam() {};
 
-    public Exam(Long classId, String createTime, List<User> studentList) {
+    public Exam(Class c, String createTime, List<User> studentList) {
         this.createTime = createTime;
-        this.classId = classId;
+        this.c = c;
         this.scoreList = new ArrayList<>();
         for (User u : studentList) {
             this.scoreList.add(new Score(u));
         }
     }
 
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
     public double getScoreByPid(String pid) {
         for (Score s : this.scoreList) {
-            System.out.println(s.toString());
+//            System.out.println(s.toString());
             if (s.getStudentPid().equals(pid))
                 return s.getScore();
         }
         return 0;
-    }
-
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
     }
 
     public List<Score> getScoreList() {
@@ -74,9 +56,5 @@ public class Exam {
             }
         });
         return scoreList;
-    }
-
-    public void setScoreList(List<Score> scoreList) {
-        this.scoreList = scoreList;
     }
 }

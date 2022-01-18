@@ -116,6 +116,30 @@
                             </tbody>
                         </table>
 
+                        <h3> 我的特别关注 </h3>
+                        <table border="1" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <td> 学号</td>
+                                <td> 姓名</td>
+                                <td> 信息</td>
+                            </tr>
+                            </thead>
+                            <tbody th:each="class : ${classModel.classListA}">
+                            <tr th:each="user: ${class.getAttentionList()}">
+                                <td th:text="${user.pid}"></td>
+                                <td th:text="${user.username}"></td>
+                                <td>
+                                    <div>
+                                        <a class="blog-info-class" data-th-attr="classId=${user.id}" role="button"
+                                           th:href="@{'/u/'+${user.id}+'/profile/'}">
+                                            <i aria-hidden="true" class="fa fa fa-info-circle"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
             </div>

@@ -3,9 +3,7 @@ package com.ruicheng.blog.initializerstart.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 /**
  * 评价
@@ -23,19 +21,27 @@ public class Evaluation {
 
     @OneToOne
     private User student;
+    
+    private String createTime;
 
+    @OneToOne
+    private Class c;
+
+    @Column(columnDefinition = "varchar(2048)")
     private String evaluation;
 
     protected Evaluation(){};
 
-    public Evaluation(User user) {
+    public Evaluation(Class c, User user) {
         this.evaluation = "";
+        this.c = c;
         this.student = user;
     }
 
-    public Evaluation(User user, String evaluation) {
+    public Evaluation(Class c, User user, String evaluation) {
         this.evaluation = evaluation;
         this.student = user;
+        this.c = c;
     }
 
 }

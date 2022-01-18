@@ -1,8 +1,6 @@
 package com.ruicheng.blog.initializerstart.controller;
 
-import com.ruicheng.blog.initializerstart.domain.Exam;
-import com.ruicheng.blog.initializerstart.domain.Score;
-import com.ruicheng.blog.initializerstart.domain.User;
+import com.ruicheng.blog.initializerstart.domain.*;
 import com.ruicheng.blog.initializerstart.domain.Class;
 import com.ruicheng.blog.initializerstart.service.ClassService;
 import com.ruicheng.blog.initializerstart.service.ExamService;
@@ -21,10 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -65,20 +60,38 @@ public class UserspaceController {
 //    @PreAuthorize("authentication.id.equals(#id) or hasRole('ADMIN')")
     public ModelAndView profile(@PathVariable("id") Long id, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) auth.getPrincipal();
-        model.addAttribute("user", user);
+        User currentUser = (User) auth.getPrincipal();
+
+        User targetUser = userService.getUserById(id);
+        model.addAttribute("user", targetUser);
 
         HashMap<Class, List<Double>> scoreMap = new HashMap<>();
+        HashMap<Class, List<Evaluation>> evaMap = new HashMap<>();
         for (Class c: classService.listClasses()){
-            if (classService.hasUserAsStudent(c,user)){
+            if ((classService.hasUserAsTeacher(c,currentUser) || currentUser.getId().equals(targetUser.getId())) && classService.hasUserAsStudent(c,targetUser)){
                 List<Exam> exam = c.getExamList();
                 List<Double> tmpList = new ArrayList<>();
                 for (Exam e: exam){
-                    tmpList.add(e.getScoreByPid(user.getPid()));
+                    tmpList.add(e.getScoreByPid(targetUser.getPid()));
                 }
                 scoreMap.put(c,tmpList);
+
+                Set<Evaluation> evaluationList = c.getEvaluationList();
+                List<Evaluation> tmpListEva = new ArrayList<>();
+                for (Evaluation eva: evaluationList){
+                    if (eva.getStudent().getId().equals(targetUser.getId()))
+                        tmpListEva.add(eva);
+                }
+                tmpListEva.sort(new Comparator<Evaluation>() {
+                    @Override
+                    public int compare(Evaluation o1, Evaluation o2) {
+                        return (int) (o2.getId() - o1.getId());
+                    }
+                });
+                evaMap.put(c,tmpListEva);
             }
         }
+        model.addAttribute("classEvalistMap", evaMap);
         model.addAttribute("classScorelistMap", scoreMap);
         return new ModelAndView("/userspace/profile", "userModel", model);
     }

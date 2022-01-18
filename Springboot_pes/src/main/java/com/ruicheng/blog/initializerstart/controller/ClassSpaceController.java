@@ -76,6 +76,15 @@ public class ClassSpaceController {
     @GetMapping("profile/{id}")
     public ModelAndView getClassInfo(@PathVariable("id") Long classId, Model model) {
         Class c = classService.getClassById(classId);
+        for (User user: c.getStudents()){
+            user.setTmpField("False");
+            userService.saveUser(user);
+        }
+        for (User user: c.getAttentionList()){
+            user.setTmpField("True");
+            userService.saveUser(user);
+        }
+        c = classService.getClassById(classId);
         model.addAttribute("class", c);
         return new ModelAndView("classspace/profile", "classModel", model);
     }
@@ -84,7 +93,7 @@ public class ClassSpaceController {
     public ModelAndView getInputScore(@PathVariable("id") Long classId, Model model) {
         Class c = classService.getClassById(classId);
         String currentTime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Timestamp(System.currentTimeMillis()));
-        Exam exam = new Exam(c.getId(), currentTime, c.getStudents());
+        Exam exam = new Exam(c, currentTime, c.getStudents());
         model.addAttribute("class", c);
         model.addAttribute("exam", exam);
         return new ModelAndView("classspace/inputScore", "classModel", model);
@@ -108,7 +117,7 @@ public class ClassSpaceController {
         String queryString = requestWrapper.getQueryString();
         ArrayList<String> stringList = new ArrayList<String>(Arrays.asList(queryString.split("&")));
         List<Score> scoreList = new ArrayList<>();
-        System.out.println(stringList);
+//        System.out.println(stringList);
 
         while (!stringList.isEmpty()) {
             Long studentId = Long.parseLong(stringList.remove(0).split("=")[1]);
@@ -121,7 +130,7 @@ public class ClassSpaceController {
 
         Class c = classService.getClassById(classId);
         String currentTime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Timestamp(System.currentTimeMillis()));
-        Exam exam = new Exam(c.getId(), currentTime, c.getStudents());
+        Exam exam = new Exam(c, currentTime, c.getStudents());
         exam.setScoreList(scoreList);
         examService.save(exam);
         c.setExamList(c.addExam(exam));
@@ -133,5 +142,17 @@ public class ClassSpaceController {
     @RequestMapping(value="/courseClickCount",method = RequestMethod.POST)
     public List<Echarts> courseClickCountStat(){
         return echartService.getdemo();//跟templates文件夹下的demo.html名字一样，返回这个界面
+    }
+
+
+    @GetMapping("/attention/{classid}/{userid}")
+    public ModelAndView addAttention(@PathVariable("classid") Long classid, @PathVariable("userid") Long userid){
+        Class c = classService.getClassById(classid);
+        User student = userService.getUserById(userid);
+        c.getAttentionList().add(student);
+        classService.saveClass(c);
+
+        return new ModelAndView("redirect:/c/profile/"+classid);
+
     }
 }

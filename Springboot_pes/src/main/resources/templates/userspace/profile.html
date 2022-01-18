@@ -13,7 +13,7 @@
     <section class="wrapper">
         <!-- Carousel -->
         <div class="col-md-12" style="display: flex">
-            <div class="no-gutter col-md-12 col-sm-12" style="padding: 0 0 0 0; display: flex; height: 700px">
+            <div class="no-gutter col-md-12 col-sm-12" style="padding: 0 0 0 0; display: flex; height: auto">
                 <div class="row col-auto" style="padding: 5px; margin: 5px">
                     <!-- 左侧栏目 -->
                     <!--                    <div class="col-md-4 col-xl-3">-->
@@ -69,7 +69,7 @@
                 </div>
 
                 <!--                个人成绩信息与评价-->
-                <div class="row col-10" sec:authorize="hasRole('STUDENT')" style="padding: 5px; margin: 5px">
+                <div class="row col-10" sec:authorize="hasRole('STUDENT') or hasRole('TEACHER')" style="padding: 5px; margin: 5px">
                     <!-- 右侧栏目 -->
                     <div class="card col-12" name="userScore">
                         <div class="card-header">成绩信息</div>
@@ -95,48 +95,47 @@
                     <div class="card col-12" name="userEva">
                         <div class="card-header">评价信息</div>
                         <br>
-                        <div class="card-block col-8" name="currEva">
+                        <div class="card-block col-8" name="currEva" style="display: contents">
                             当前
+                            <div class="card-body">
+                                <table border="1" class="table table-striped">
+                                    <tbody th:each="class: ${userModel.classEvalistMap.keySet()}">
+                                    <tr th:if="${userModel.classEvalistMap.get(class).size()} neq 0">
+                                        <td th:text="${class.classname}"></td>
+                                        <td th:text="${userModel.classEvalistMap.get(class).get(0).getEvaluation()}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="card-block col-8" name="prevEva">
+                        <div class="card-block col-8" name="prevEva" style="display: contents">
                             历史
+                            <div class="card-body">
+                                <table border="1" class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <td th:each="class: ${userModel.classEvalistMap.keySet()}" th:text="${class.classname}"></td>
+                                        <td>时间</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody th:each="class: ${userModel.classEvalistMap.keySet()}">
+                                    <tr th:each="eva: ${userModel.classEvalistMap.get(class)}">
+                                        <td th:text="${eva.getEvaluation()}"></td>
+                                        <td th:text="${eva.getCreateTime()}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-
                 </div>
+
 
             </div>
         </div>
     </section>
 </section>
 
-<!-- /.container -->
-
-<!-- The modal -->
-<div aria-hidden="true" aria-labelledby="modalLabel" class="modal fade" id="flipFlop"
-     role="dialog" tabindex="-1">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modalLabel">编辑头像</h4>
-                <button aria-label="Close" class="close" data-dismiss="modal"
-                        type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-
-            </div>
-            <div class="modal-body" id="avatarFormContainer"></div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" data-dismiss="modal" id="submitEditAvatar">提交</button>
-                <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- JavaScript -->
-<script src="../../js/userspace/main.js" th:src="@{/js/userspace/main.js}"></script>
 
 <!-- /.container -->
 <!-- js placed at the end of the document so the pages load faster -->
@@ -145,6 +144,6 @@
 <script th:src="@{../../static/js/common-scripts.js}"></script>
 
 
-<div th:replace="~{fragment/_footer :: footer}">...</div>
+<!--<div th:replace="~{fragment/_footer :: footer}">...</div>-->
 </body>
 </html>
