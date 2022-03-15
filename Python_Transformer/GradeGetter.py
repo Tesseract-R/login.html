@@ -1,18 +1,12 @@
-import joblib
+
 import pymysql
 import pandas as pd
-from matplotlib import pyplot as plt
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.svm import SVR
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import mean_squared_error  # 批量导入指标算法
-import numpy as np
 
 
-def get_grade(host, user_name, key, database_name):
+def get_grade():
     # 连接数据库
-    db = pymysql.connect(host, user_name, key, database_name)
+    db = pymysql.connect(host='localhost', user='root', password='california', database='seconddegree', charset='utf8')
     cursor = db.cursor()
     cursor2 = db.cursor()
     cursor3 = db.cursor()
@@ -50,77 +44,14 @@ def get_grade(host, user_name, key, database_name):
     db.close()
     df = pd.DataFrame(list1,
                       columns=['Semester_start_score', 'Structured_design', 'Software_process', 'Detailed_design',
-                               'Demand_analysis', 'Tests_for_realization', 'Maintenance', 'final_score',
-                               'viewing_time_length'])
-    # df.to_csv(r"E:\Study\SSPKU\软件工程\小组课题\在线行为数据和期末成绩\score_all.csv", index=False)  # 保存数据
-
+                               'Demand_analysis', 'Tests_for_realization', 'Maintenance',
+                               'viewing_time_length', 'final_score',])
+    df.to_csv(r"E:\Study\SSPKU\软件工程\小组课题\在线行为数据和期末成绩\score_all.csv", index=False, header=None)  # 保存数据
+    df = pd.read_csv(r"E:\Study\SSPKU\软件工程\小组课题\在线行为数据和期末成绩\score_all.csv", header=None)
     # 分割训练、测试集 （期末成绩为y值，其他数据为x值）
     print("Splitting training data and testing data...")
-    train_x, test_x, train_y, test_y = train_test_split(df[['Semester_start_score', 'Structured_design',
-                                                            'Software_process', 'Detailed_design', 'Demand_analysis',
-                                                            'Tests_for_realization', 'Maintenance',
-                                                            'viewing_time_length']], df['final_score'], test_size=0.1)
+    # print(df)
+    x = df.iloc[:,0:8]
+    y = df.iloc[:,8]
+    train_x, test_x, train_y, test_y = train_test_split(x, y, test_size=0.1)
     return train_x, test_x, train_y, test_y
-
-
-
-    # 特征归一化
-    # train_y_normal = train_y
-
-
-
-    # mm = MinMaxScaler()
-    # train_x_normal = mm.fit_transform(train_x)
-    # test_x_normal = mm.transform(test_x)
-
-    # 设置超参数
-    # C = [0.1, 0.2, 0.5, 0.8, 0.9, 1, 2, 5, 10, 100, 1000]
-    # kernel = 'rbf'
-    # gamma = [0.001, 0.01, 0.1, 0.2, 0.5, 0.8]
-    # epsilon = [0.01, 0.05, 0.1, 0.2, 0.5, 0.8, 1, 10, 100]
-    # 参数字典
-    # params_dict = {
-    #     'C': C,
-    #     'gamma': gamma,
-    #     'epsilon': epsilon
-    # }
-
-    # 初始化支持向量机
-    # gsCV = GridSearchCV(SVR(kernel='rbf', gamma=100), cv=10, param_grid=params_dict)
-    # gsCV.fit(train_x_normal, train_y_normal)
-
-    # svr = SVR(C=gsCV.best_params_['C'], kernel=kernel, gamma=gsCV.best_params_['gamma'],
-    #           epsilon=gsCV.best_params_['epsilon'])
-    # svr.fit(train_x_normal, train_y_normal)
-
-    # 用测试集检验误差
-    # y_svr = svr.predict(test_x_normal)
-    # mse = mean_squared_error(test_y.values, y_svr)
-    # return svr, mm, mse, test_y, y_svr
-
-
-# def update_system():
-#     while (True):
-#         svr, mm, mse, test_y, y_svr = grade_predict("localhost", "root", "california", "seconddegree")
-#         print(mse)
-#         if mse <= 100:
-#             保存模型
-            # joblib.dump(svr, r'svm.joblib')
-            # joblib.dump(mm, r'mm')
-            # return test_y, y_svr, mse
-            # return True
-
-
-# if __name__ == '__main__':
-#     test_y, y_svr, mse = update_system()
-#     print("预测偏差：", mse)
-#
-    # 在图上可视化
-    # X = np.linspace(1, len(y_svr), len(y_svr))
-    # plt.scatter(X, test_y.values, c='k', label="Final Score", zorder=1)
-    # plt.scatter(X, y_svr, c='r', label="Predict Score (MSE: %.3f)" % mse)
-    # plt.xlabel('Student')
-    # plt.ylabel('Score')
-    # plt.legend()
-    # plt.figure()
-    # plt.show()

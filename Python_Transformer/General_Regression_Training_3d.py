@@ -187,7 +187,7 @@ class General_Regression_Training_3d():
 
         return b_datas, b_labels
 
-    # 訓練函數
+    # 训练函数
     def fit(self, X_train, y_train, X_test, y_test):
         ''' training the network '''
         # input the dataset and transform into dataLoad
@@ -244,7 +244,7 @@ class General_Regression_Training_3d():
         for e in range(self.epoch):
 
             tempLoss = []
-            # 訓練模式
+            # 训练模式
             self.net.train()
             for i in range(len(b_data)):
                 if torch.cuda.is_available():

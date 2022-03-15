@@ -25,14 +25,13 @@ public class Exam {
     @OneToMany
     private List<Score> scoreList;
 
-    @OneToOne
-    private Class c; // 哪个班考的试
+    private Long classId; // 哪个班考的试
 
     protected Exam() {};
 
-    public Exam(Class c, String createTime, List<User> studentList) {
+    public Exam(Long classId, String createTime, List<User> studentList) {
         this.createTime = createTime;
-        this.c = c;
+        this.classId = classId;
         this.scoreList = new ArrayList<>();
         for (User u : studentList) {
             this.scoreList.add(new Score(u));
@@ -41,7 +40,6 @@ public class Exam {
 
     public double getScoreByPid(String pid) {
         for (Score s : this.scoreList) {
-//            System.out.println(s.toString());
             if (s.getStudentPid().equals(pid))
                 return s.getScore();
         }

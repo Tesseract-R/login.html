@@ -24,7 +24,7 @@ public class HelloController {
     @Autowired
     EchartService echartService;
 
-    @GetMapping
+    @GetMapping("/hello")
     public ModelAndView Hello(Model model) {
         return new ModelAndView("echart", "model", model);
     }

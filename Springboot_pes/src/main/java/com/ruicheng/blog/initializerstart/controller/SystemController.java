@@ -41,5 +41,4 @@ public class SystemController {
         model.addAttribute("systemConfig", systemConfig);
         return new ModelAndView("system", "systemModel", model);
     }
-
 }

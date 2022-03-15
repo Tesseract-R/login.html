@@ -112,7 +112,7 @@ public class Class implements Serializable {
         this.userNum -= 1;
     }
 
-    public List<User> getStudents() {
+    public List<User> getStudentList() {
         List<User> studentList = new ArrayList<>(this.students);
         studentList.sort(new Comparator<User>() {
             @Override

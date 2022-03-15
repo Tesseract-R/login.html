@@ -23,8 +23,6 @@ public class ClassServiceImpl implements ClassService {
     @Transactional
     @Override
     public Class saveClass(Class c) {
-        System.out.println("课程存储");
-        System.out.println(c.getStudents());
         return classRepository.save(c);
     }
 

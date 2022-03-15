@@ -71,7 +71,7 @@
                                     <tr th:if="${class.getStudents().size()} eq 0">
                                         <td colspan="6">没有学生信息！</td>
                                     </tr>
-                                    <tr th:each="user : ${class.getStudents()}">
+                                    <tr th:each="user : ${class.getStudentList()}">
                                         <td th:text="${user.pid}"></td>
                                         <td th:text="${user.username}"></td>
                                         <td th:each="exam: ${class.getExamList()}"

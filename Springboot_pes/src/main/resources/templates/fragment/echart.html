@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ECharts</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div>
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <div id="exams" style="width: 600px;height:400px;">
+    </div>
+
+    <div id="scores" style="width: 600px;height:400px;">
+    </div>
+
+    <script type="text/javascript" th:fragment="exams">
+        $('#getImg').click(function () {
+            var averages = [];
+            var stds = [];
+            var xTime = [];
+            console.log("刷新图表")
+            $.ajax({
+                url: "/c/getExams/" + $(this).attr("classId"),    //请求发送到dataActiont处
+                data: {},
+                dataType: "json",        //返回数据形式为json
+                async : false,
+                success: function (result) {
+                    if (result) {
+                        for (var i = 0; i < result.length; i++) {
+                            xTime.push(result[i].createTime)
+                            const scoreList = result[i].scoreList;
+                            var scoreSum = 0
+                            for(var j = 0; j < scoreList.length; j++){
+                                scoreSum = scoreSum + scoreList[j].score
+                            }
+                            var average = scoreSum / scoreList.length
+                            averages.push(average)
+                            var std = 0
+                            for(var j = 0; j < scoreList.length; j++){
+                                std = std + (scoreList[j].score - average) ** 2
+                            }
+                            stds.push(Math.sqrt(std / (scoreList.length - 1)))
+                        }
+                    }
+                }
+            })
+
+            const chartDom = document.getElementById('exams');
+            const myChart = echarts.init(chartDom);
+            let option;
+            console.log(xTime)
+            console.log(averages)
+            console.log(stds)
+            option = {
+                title: {
+                    text: '平均分/标准差'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['平均分', '标准差']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: xTime
+                },
+                yAxis: {
+                    type: 'value',
+                    min:0,
+                    max:100
+                },
+                series: [
+                    {
+                        name: '平均分',
+                        type: 'line',
+                        smooth: true,
+                        stack: 'Total',
+                        data: averages
+                    },
+                    {
+                        name: '标准差',
+                        type: 'line',
+                        smooth: true,
+                        stack: 'Total',
+                        data: stds
+                    }
+                ]
+            };
+            option && myChart.setOption(option);
+        })
+    </script>
+
+    <script type="text/javascript" th:fragment="scores">
+
+
+            const chartDom = document.getElementById('exams');
+            const myChart = echarts.init(chartDom);
+            let option;
+            console.log(xTime)
+            console.log(averages)
+
+            option && myChart.setOption(option);
+        })
+    </script>
+
+<!--    <script type="text/javascript" th:fragment="scores">-->
+<!---->
+<!--    </script>-->
+</div>
+
+
+
+
+
+</body>

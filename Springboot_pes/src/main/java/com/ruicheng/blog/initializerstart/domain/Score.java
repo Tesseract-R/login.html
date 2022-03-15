@@ -19,31 +19,28 @@ public class Score {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增长策略
     private Long Id;
 
-    @OneToOne
-    private User student;
+    private String studentPid;
 
     private double score;
 
     public Score(User user) {
         this.score = 0.0;
-        this.student = user;
+        this.studentPid = user.getPid();
     }
 
     public Score(User user, double score) {
         this.score = score;
-        this.student = user;
+        this.studentPid = user.getPid();
     }
 
     protected Score() {
     }
 
     public Long getStudentId() {
-        return Long.parseLong(student.getPid());
+        return Long.parseLong(studentPid);
     }
 
     public String getStudentPid(){
-        return this.student.getPid();
+        return this.studentPid;
     }
-
-
 }

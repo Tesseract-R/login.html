@@ -4,10 +4,13 @@ import com.ruicheng.blog.initializerstart.domain.Class;
 import com.ruicheng.blog.initializerstart.domain.User;
 import com.ruicheng.blog.initializerstart.service.ClassService;
 import com.ruicheng.blog.initializerstart.service.UserService;
+import com.ruicheng.blog.initializerstart.util.ConstraintViolationExceptionHandler;
+import com.ruicheng.blog.initializerstart.vo.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -73,7 +76,7 @@ public class ClassController {
     public ModelAndView view(@PathVariable("id") Long id, Model model) {
         Class c = classService.getClassById(id);
         Set<User> teachers = c.getTeachers();
-        List<User> students = c.getStudents();
+        List<User> students = c.getStudentList();
 
         model.addAttribute("class", c);
         model.addAttribute("title", "班级信息");
@@ -84,30 +87,28 @@ public class ClassController {
     }
 
     /**
-     * 获取创建表单页面
-     *
+     * 获取 form 表单页面
      * @param model
      * @return
      */
-    @GetMapping("/addClass")
-    public ModelAndView createForm(Model model) {
+    @GetMapping("/add")
+    public ModelAndView addForm(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) auth.getPrincipal();
         String currentTime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Timestamp(System.currentTimeMillis()));
         Class newClass = new Class(null, null, currentUser.getUsername(), currentTime, null);
         model.addAttribute("class", newClass);
-        model.addAttribute("title", "创建新班级");
         return new ModelAndView("classes/form", "classModel", model);
     }
 
     /**
      * 新建班级
-     *
      * @param c
      * @return
      */
     @PostMapping
-    public ModelAndView saveOrUpdateClass(Class c) {
+    public ResponseEntity<Response> saveOrUpdateClass(Class c) {
+        System.out.println("save class " + c.getClassname() + c.getInfo() );
         try {
             if (c.getId() == null) {
                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -117,13 +118,14 @@ public class ClassController {
                 classService.saveClass(c);
             } else {
                 c.setTeachers(classService.getClassById(c.getId()).getTeachers());
-                c.setStudents((Set<User>) classService.getClassById(c.getId()).getStudents());
+                c.setStudents(classService.getClassById(c.getId()).getStudents());
                 c.setUserNum(c.getStudents().size() + c.getTeachers().size());
                 classService.saveClass(c);
             }
         } catch (ConstraintViolationException e) {
+            return ResponseEntity.ok().body(new Response(false, ConstraintViolationExceptionHandler.getMessage(e)));
         }
-        return new ModelAndView("redirect:/classes");
+        return ResponseEntity.ok().body(new Response(true, "处理成功", c));
     }
 
     /**
@@ -133,7 +135,7 @@ public class ClassController {
      * @param model
      * @return
      */
-    @GetMapping("/modify/{id}")
+    @GetMapping("/edit/{id}")
     public ModelAndView modify(@PathVariable("id") Long id, Model model) {
         Class c = classService.getClassById(id);
         model.addAttribute("class", c);
@@ -144,10 +146,14 @@ public class ClassController {
     /**
      * 删除班级
      */
-    @GetMapping("/delete/{id}")
-    public ModelAndView view(@PathVariable("id") Long id) {
-        classService.removeClass(id);
-        return new ModelAndView("redirect:/classes");
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Response> delete(@PathVariable("id") Long id, Model model) {
+        try {
+            classService.removeClass(id);
+        } catch (Exception e) {
+            return  ResponseEntity.ok().body( new Response(false, e.getMessage()));
+        }
+        return  ResponseEntity.ok().body( new Response(true, "处理成功"));
     }
 
 
@@ -161,7 +167,7 @@ public class ClassController {
         List<User> selectedList;
         if (role.equals("Student")) {
             title = "添加学生";
-            selectedList = c.getStudents();
+            selectedList = c.getStudentList();
         } else {
             title = "添加管理员";
             selectedList = new ArrayList<>(c.getTeachers());
@@ -183,18 +189,6 @@ public class ClassController {
         model.addAttribute("userList", userList);
         return new ModelAndView("classes/addUser", "classModel", model);
     }
-
-    /**
-     * 班级添加管理员
-     */
-//    @GetMapping("/{classid}/addAdmin")
-//    public ModelAndView addAdmin(@PathVariable("classid") Long id, Model model) {
-//        Class c = classService.getClassById(id);
-//        model.addAttribute("title", "添加管理员");
-//        model.addAttribute("role", "admin");
-//        model.addAttribute("class", c);
-//        return new ModelAndView("redirect:/classes/addUser", "classModel", model);
-//    }
 
     /**
      * 班内增加用户
@@ -232,6 +226,4 @@ public class ClassController {
         classService.saveClass(currentClass);
         return new ModelAndView("redirect:/classes/{classid}");
     }
-
-
 }

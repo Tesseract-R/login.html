@@ -38,10 +38,6 @@ public class MainController {
     public String index() {
         return "index";
     }
-//	public ModelAndView index(Model model, User user){
-//		model.addAttribute("user", user);
-//		return new ModelAndView("index", "userModel", model);
-//	}
 
     /**
      * 获取登录界面
@@ -65,13 +61,6 @@ public class MainController {
         return "login";
     }
 
-//	@GetMapping("/register-error")
-//	public String registerError(Model model) {
-//		model.addAttribute("registerError", true);
-//		model.addAttribute("errorMsg", "信息输入错误！");
-//		return "register";
-//	}
-
     @GetMapping("/register")
     public String register() {
         return "register";
@@ -92,16 +81,4 @@ public class MainController {
         return "redirect:/login";
     }
 
-//	@PostMapping({"/login", "/login-error"})
-//	public String verifyUser(User user) {
-//		if (!userService.verifyUser(user)){
-//			return "redirect:/login-error";
-//		};
-//		return "redirect:/index";
-//	}
-//
-//	@GetMapping("/search")
-//	public String search() {
-//		return "search";
-//	}
 }

@@ -116,8 +116,8 @@
                             </tbody>
                         </table>
 
-                        <h3> 我的特别关注 </h3>
-                        <table border="1" class="table table-striped">
+                        <h3 sec:authorize="hasRole('TEACHER')"> 我的特别关注 </h3>
+                        <table sec:authorize="hasRole('TEACHER')" border="1" class="table table-striped">
                             <thead>
                             <tr>
                                 <td> 学号</td>

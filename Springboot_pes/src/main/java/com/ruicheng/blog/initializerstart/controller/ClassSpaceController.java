@@ -1,6 +1,8 @@
 package com.ruicheng.blog.initializerstart.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ruicheng.blog.initializerstart.domain.*;
 import com.ruicheng.blog.initializerstart.domain.Class;
 import com.ruicheng.blog.initializerstart.service.*;
@@ -10,10 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -29,7 +28,7 @@ import java.util.List;
  *
  * @author Ruicheng
  */
-@Controller
+@RestController
 @RequestMapping("/c")
 public class ClassSpaceController {
     @Autowired
@@ -76,7 +75,7 @@ public class ClassSpaceController {
     @GetMapping("profile/{id}")
     public ModelAndView getClassInfo(@PathVariable("id") Long classId, Model model) {
         Class c = classService.getClassById(classId);
-        for (User user: c.getStudents()){
+        for (User user: c.getStudentList()){
             user.setTmpField("False");
             userService.saveUser(user);
         }
@@ -93,7 +92,7 @@ public class ClassSpaceController {
     public ModelAndView getInputScore(@PathVariable("id") Long classId, Model model) {
         Class c = classService.getClassById(classId);
         String currentTime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Timestamp(System.currentTimeMillis()));
-        Exam exam = new Exam(c, currentTime, c.getStudents());
+        Exam exam = new Exam(c.getId(), currentTime, c.getStudentList());
         model.addAttribute("class", c);
         model.addAttribute("exam", exam);
         return new ModelAndView("classspace/inputScore", "classModel", model);
@@ -117,7 +116,6 @@ public class ClassSpaceController {
         String queryString = requestWrapper.getQueryString();
         ArrayList<String> stringList = new ArrayList<String>(Arrays.asList(queryString.split("&")));
         List<Score> scoreList = new ArrayList<>();
-//        System.out.println(stringList);
 
         while (!stringList.isEmpty()) {
             Long studentId = Long.parseLong(stringList.remove(0).split("=")[1]);
@@ -130,7 +128,7 @@ public class ClassSpaceController {
 
         Class c = classService.getClassById(classId);
         String currentTime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Timestamp(System.currentTimeMillis()));
-        Exam exam = new Exam(c, currentTime, c.getStudents());
+        Exam exam = new Exam(c.getId(), currentTime, c.getStudentList());
         exam.setScoreList(scoreList);
         examService.save(exam);
         c.setExamList(c.addExam(exam));
@@ -139,9 +137,17 @@ public class ClassSpaceController {
         return new ModelAndView("redirect:/c/profile/" + classId);
     }
 
-    @RequestMapping(value="/courseClickCount",method = RequestMethod.POST)
-    public List<Echarts> courseClickCountStat(){
-        return echartService.getdemo();//跟templates文件夹下的demo.html名字一样，返回这个界面
+    @RequestMapping(value="/getExams/{id}", method = RequestMethod.GET, produces = "application/json")
+    public String examStat(@PathVariable("id") Long id) throws JsonProcessingException {
+        System.out.println("获取数据");
+        Class c = classService.getClassById(id);
+        ObjectMapper mapper = new ObjectMapper();
+        List<String> returnList = new ArrayList<>();
+        for (Exam exam: c.getExamList()){
+            returnList.add(exam.getCreateTime());
+        }
+        String json = mapper.writeValueAsString(c.getExamList());
+        return json;
     }
 
 
@@ -153,6 +159,5 @@ public class ClassSpaceController {
         classService.saveClass(c);
 
         return new ModelAndView("redirect:/c/profile/"+classid);
-
     }
 }

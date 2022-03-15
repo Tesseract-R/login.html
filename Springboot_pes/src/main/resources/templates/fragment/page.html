@@ -28,27 +28,24 @@
         <div class="col-3" style="align-items: center; display: flex; padding: 0.375rem 1.75rem 0.375rem 0.75rem;">
             <div class="col-4" style="padding: 0 0 0 0;  margin:10px 0">
                 <li class="page-item" data-th-classappend="*{first} ? 'disabled' : ''">
-                    <a aria-label="Previous" class="page-link tbpage-item"
-                       data-th-attr="pageIndex=${page.number} - 1" href="javascript:void(0);">
+                    <a href="javascript:void(0);" class="page-link tbpage-item" data-th-attr="pageIndex=${page.number} - 1" aria-label="Previous">
                         <span aria-hidden="true">«</span>
                     </a>
                 </li>
             </div>
 
-            <!-- 迭代生成页码 -->
+            <!-- 这一页 -->
             <div class="col-4" style="padding: 0 0 0 0;  margin:10px 0">
-                <li class="page-item" data-th-classappend="${(page.number + 1) eq i} ? 'active' : ''"
-                    data-th-each="i : ${#numbers.sequence(1, page.totalPages)}">
-                    <a class="page-link tbpage-item" data-th-attr="pageIndex=${i} - 1" href="javascript:void(0);">
-                        <span data-th-text="${i}"></span>
+                <li class="page-item">
+                    <a class="page-link tbpage-item" data-th-attr="pageIndex=${page.number}" href="javascript:void(0);">
+                        <span data-th-text="${page.number + 1}"></span>
                     </a>
                 </li>
             </div>
             <!-- 下一页 -->
             <div class="col-4" style="padding: 0 0 0 0; margin:10px 0">
                 <li class="page-item" data-th-classappend="*{last} ? 'disabled' : ''">
-                    <a aria-label="Next" class="page-link tbpage-item"
-                       data-th-attr="pageIndex=${page.number} + 1" href="javascript:void(0);">
+                    <a href="javascript:void(0);" class="page-link tbpage-item" data-th-attr="pageIndex=${page.number} + 1" aria-label="Next">
                         <span aria-hidden="true">»</span>
                     </a>
                 </li>

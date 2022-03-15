@@ -6,7 +6,7 @@
     <div th:replace="~{fragment/_header :: header}"></div>
 </head>
 <body style="background-color:#F4F4F4">
-
+<script th:src="@{../../static/js/classes/main.js}" type="text/javascript"></script>
 <aside th:replace="~{fragment/_sidebar :: sidebar}"></aside>
 
 <!--main content start-->
@@ -26,21 +26,18 @@
                                        type="text">
                                 <span class="input-group-btn"
                                       style="height: 40px; display: flex; vertical-align: middle">
-                                  <button class="btn btn-secondary" id="searchNameBtn" style="height: 40px"
-                                          type="button">
-                                      <div style="display: flex"><i aria-hidden="true" class="fa fa-search"
-                                                                    style="position: center"></i></div>
-                                  </button>
-                              </span>
-                                <a th:href="@{'/classes/addClass'}">
-                                  <span class="input-group-btn"
-                                        style="height: 40px; display: flex; vertical-align: middle">
-                                 <button class="btn btn-primary" id="addClassBtn" style="height: 40px" type="button">
-                                      <div style="display: flex"><i aria-hidden="true" class="fa fa-plus"
-                                                                    style="position: center"></i></div>
+                                  <button class="btn btn-secondary" id="searchNameBtn" style="height: 40px" type="button">
+                                      <div style="display: flex">
+                                          <i aria-hidden="true" class="fa fa-search" style="position: center"></i>
+                                      </div>
                                   </button>
                                 </span>
-                                </a>
+
+                                <span class="input-group-btn" style="height: 40px; display: flex; vertical-align: middle">
+                                      <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" role="button" id="addClass">
+                                          <i class="fa fa-plus" aria-hidden="true"></i></a>
+                                </span>
+<!--                                </a>-->
                             </div>
                         </div>
 
@@ -55,7 +52,7 @@
                                 <td> 操作</td>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="rightContainer">
                             <tr th:if="${classModel.classList.size()} eq 0">
                                 <td colspan="6">没有班级信息！</td>
                             </tr>
@@ -66,23 +63,38 @@
                                 <td th:text="${class.createTime}"></td>
                                 <td th:text="${class.userNum}"></td>
                                 <td>
-                                    <div>
-                                        <a class="blog-info-class" data-th-attr="classId=${class.id}" role="button"
-                                           th:href="@{'/classes/'+${class.id}}"><i aria-hidden="true"
-                                                                                   class="fa fa-info-circle"></i></a>
-                                        <a class="blog-edit-class" data-th-attr="classId=${class.id}"
-                                           role="button" th:href="@{'/classes/modify/'+${class.id}}"> <i
-                                                aria-hidden="true" class="fa fa-pencil-square-o"></i></a>
-                                        <a class="blog-delete-class" data-th-attr="classId=${class.id}"
-                                           role="button" th:href="@{'/classes/delete/'+${class.id}}"> <i
-                                                aria-hidden="true"
-                                                class="fa fa-times"></i></a>
-                                    </div>
+                                    <a class="blog-info-class" data-th-attr="classId=${class.id}" role="button"
+                                       th:href="@{'/classes/'+${class.id}}"><i aria-hidden="true"
+                                                                               class="fa fa-info-circle"></i></a>
+                                    <a class="edit-class" data-th-attr="classId=${class.id}" data-bs-toggle="modal" data-bs-target="#staticBackdrop" role="button"> <i
+                                            aria-hidden="true" class="fa fa-pencil-square-o"></i></a>
+                                    <a class="delete-class" data-th-attr="classId=${class.id}" role="button">
+                                        <i aria-hidden="true" class="fa fa-times"></i>
+                                    </a>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                         <div th:replace="~{fragment/page :: page}">...</div>
+
+                        <!-- The modal -->
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">增加/修改班级</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body" id="userFormContainer"></div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">关闭</button>
+                                        <button class="btn btn-primary" data-bs-dismiss="modal" id="submitEdit">提交</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -95,7 +107,7 @@
 <!-- js placed at the end of the document so the pages load faster -->
 <script th:src="@{../../static/js/jquery.nicescroll.js}"></script>
 <!--common script for all pages-->
-<script th:src="@{../../static/js/common-scripts.js}"></script>
+<!--<script th:src="@{../../static/js/common-scripts.js}"></script>-->
 
 </body>
 </html>

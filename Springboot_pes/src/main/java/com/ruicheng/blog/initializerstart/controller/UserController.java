@@ -4,6 +4,7 @@ import com.ruicheng.blog.initializerstart.domain.Authority;
 import com.ruicheng.blog.initializerstart.domain.User;
 import com.ruicheng.blog.initializerstart.service.AuthorityService;
 import com.ruicheng.blog.initializerstart.service.UserService;
+import com.ruicheng.blog.initializerstart.util.ConstraintViolationExceptionHandler;
 import com.ruicheng.blog.initializerstart.vo.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
@@ -80,137 +79,41 @@ public class UserController {
         return new ModelAndView("users/view", "userModel", model);
     }
 
-    /**
-     * 获取创建表单页面
-     *
-     * @param model
-     * @return
-     */
-    @GetMapping("/addUser")
-    public ModelAndView createForm(Model model) {
-        model.addAttribute("user", new User(null, null, null, null, "123456"));
-        model.addAttribute("title", "创建用户");
-        return new ModelAndView("users/form", "userModel", model);
-    }
 
     /**
-     * 提交表单
-     *
+     * 新建用户
      * @param user
      * @return
      */
     @PostMapping
-    public ModelAndView saveOrUpdateUser(User user, Long authorityId) {
+    public ResponseEntity<Response> create(User user, Long authorityId) {
         List<Authority> authorities = new ArrayList<>();
         authorities.add(authorityService.getAuthorityById(authorityId));
         user.setAuthorities(authorities);
 
-        if (user.getId() == null) {
+        if(user.getId() == null) {
             user.setEncodePassword(user.getPassword()); // 加密密码
-        } else {
+        }else {
             // 判断密码是否做了变更
             User originalUser = userService.getUserById(user.getId());
             String rawPassword = originalUser.getPassword();
-            PasswordEncoder encoder = new BCryptPasswordEncoder();
+            PasswordEncoder  encoder = new BCryptPasswordEncoder();
             String encodePasswd = encoder.encode(user.getPassword());
             boolean isMatch = encoder.matches(rawPassword, encodePasswd);
             if (!isMatch) {
                 user.setEncodePassword(user.getPassword());
-            } else {
+            }else {
                 user.setPassword(user.getPassword());
             }
         }
 
         try {
             userService.saveUser(user);
-        } catch (ConstraintViolationException e) {
+        }  catch (ConstraintViolationException e)  {
+            return ResponseEntity.ok().body(new Response(false, ConstraintViolationExceptionHandler.getMessage(e)));
         }
-        return new ModelAndView("redirect:/users");
+        return ResponseEntity.ok().body(new Response(true, "处理成功", user));
     }
-
-    /**
-     * 新建用户
-     * @param user
-     * @param authorityId
-     * @param authorityId
-     * @return
-     */
-//    @PostMapping
-//    public ResponseEntity<Response> create(User user, Long authorityId) {
-//        List<Authority> authorities = new ArrayList<>();
-//        authorities.add(authorityService.getAuthorityById(authorityId));
-//        user.setAuthorities(authorities);
-//
-//        if(user.getId() == null) {
-//            user.setEncodePassword(user.getPassword()); // 加密密码
-//        }else {
-//            // 判断密码是否做了变更
-//            User originalUser = userService.getUserById(user.getId());
-//            String rawPassword = originalUser.getPassword();
-//            PasswordEncoder encoder = new BCryptPasswordEncoder();
-//            String encodePasswd = encoder.encode(user.getPassword());
-//            boolean isMatch = encoder.matches(rawPassword, encodePasswd);
-//            if (!isMatch) {
-//                user.setEncodePassword(user.getPassword());
-//            }else {
-//                user.setPassword(user.getPassword());
-//            }
-//        }
-//
-//        try {
-//            userService.saveUser(user);
-//        }  catch (ConstraintViolationException e)  {
-//            return ResponseEntity.ok().body(new Response(false, ConstraintViolationExceptionHandler.getMessage(e)));
-//        }
-//
-//        return ResponseEntity.ok().body(new Response(true, "处理成功", user));
-//    }
-
-    /**
-     * 删除用户
-     *
-     * @param id
-     * @return
-     */
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Response> delete(@PathVariable("id") Long id, Model model) {
-        try {
-            userService.removeUser(id);
-        } catch (Exception e) {
-            return ResponseEntity.ok().body(new Response(false, e.getMessage()));
-        }
-        return ResponseEntity.ok().body(new Response(true, "处理成功"));
-    }
-
-    /**
-     * 修改用户信息
-     *
-     * @param id
-     * @param model
-     * @return
-     */
-    @GetMapping("/modify/{id}")
-    public ModelAndView modify(@PathVariable("id") Long id, Model model) {
-        User user = userService.getUserById(id);
-        model.addAttribute("user", user);
-        model.addAttribute("title", "修改用户");
-        return new ModelAndView("users/form", "userModel", model);
-    }
-
-    /**
-     * 删除用户
-     */
-    @GetMapping("/delete/{id}")
-    public ModelAndView view(@PathVariable("id") Long id) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = (User) auth.getPrincipal();
-        if (id == currentUser.getId()) {
-            return new ModelAndView("redirect:/users");
-        }
-        userService.removeUser(id);
-        return new ModelAndView("redirect:/users");
-    }
-
 
     /**
      * 获取修改用户的界面，及数据
@@ -220,14 +123,29 @@ public class UserController {
      */
     @GetMapping(value = "/edit/{id}")
     public ModelAndView modifyForm(@PathVariable("id") Long id, Model model) {
+        System.out.println("EDIT == ID: "+id);
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
         return new ModelAndView("users/edit", "userModel", model);
     }
 
+    /**
+     * 删除用户
+     * @param id
+     * @return
+     */
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Response> delete(@PathVariable("id") Long id, Model model) {
+        try {
+            userService.removeUser(id);
+        } catch (Exception e) {
+            return  ResponseEntity.ok().body( new Response(false, e.getMessage()));
+        }
+        return  ResponseEntity.ok().body( new Response(true, "处理成功"));
+    }
+
     @GetMapping("/add")
     public ModelAndView addForm(Model model) {
-        System.out.println("==== add ====");
         model.addAttribute("user", new User(null, null, null, null, null));
         return new ModelAndView("users/add", "userModel", model);
     }
